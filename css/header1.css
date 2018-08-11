@@ -1,0 +1,31 @@
+.header1 {
+   background-color: aqua;
+   height: 120px;
+   margin: 0 auto; 
+   padding: 0px;
+   border: 0px;
+   position: absolute;
+   width: 100%
+}
+
+.logo {
+    height: 80px;
+    position: relative;
+    top: 15px;
+    left: 10px;
+    bottom: 15px;
+    right: 0px;
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.header1 h1 {
+    position: absolute;
+    left: 110px;
+    top: 0;
+    font-family: 'Exo', sans-serif;
+    font-size: 50px;
+    padding: 0px;
+    margin-top: 20px;
+    border: 0px;
+}
