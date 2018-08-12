@@ -1,19 +1,20 @@
 .header1 {
-   background-color: aqua;
-   height: 120px;
+   background-color: rgba(7, 164, 249, 0.789);
+   height: 100px;
    margin: 0 auto; 
    padding: 0px;
    border: 0px;
-   position: absolute;
-   width: 100%
+   position: fixed;
+   width: 100%;
+   font-family: 'Exo', sans-serif;
 }
 
 .logo {
     height: 80px;
     position: relative;
-    top: 15px;
+    top: 10px;
     left: 10px;
-    bottom: 15px;
+    bottom: 10px;
     right: 0px;
     margin-right: 0px;
     padding-right: 0px;
@@ -21,11 +22,55 @@
 
 .header1 h1 {
     position: absolute;
-    left: 110px;
+    left: 100px;
     top: 0;
-    font-family: 'Exo', sans-serif;
     font-size: 50px;
     padding: 0px;
-    margin-top: 20px;
+    margin-top: 15px;
     border: 0px;
+}
+
+button {
+    position: relative;
+    right: 10px;
+    height: 65%;
+    width: 110px;
+    font-family: 'Exo', sans-serif;
+    float: right;
+    margin: 5px;
+    top: 20px;
+    font-size: 20px;
+    border: 0;
+}
+
+.log {
+    background-color: rgba(0, 51, 255, 0.529);
+    color: white;
+}
+
+.log:hover {
+    box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+    color: black;
+    background-color: white;
+}
+
+.reg {
+    background-color: orange;
+    color: white;
+}
+
+.reg:hover {
+    box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+    color: black;
+    background-color: white;
+}
+
+.header1 input{
+    position: relative;
+    float: right;
+    top: 30px;
+    right: 50px;
+    font-size: 30px;
+    border: 2px solid black;
+    padding: 3px;
 }
