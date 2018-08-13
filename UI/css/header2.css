@@ -1,37 +1,100 @@
+
+.container {
+    display: flex;
+    flex-flow: column wrap;
+    
+}
 .flex-container {
     display: flex;
-    background-color: rgba(7, 164, 249, 0.789);
-    height: 5%;
+    background-color: rgba(0, 166, 255, 0.905);
+    height: 3%;
     width: 100%;
     font-family: 'Exo', sans-serif;
     justify-content: space-around;
     flex-flow: row wrap;
     align-items: center;
     padding: 0px;
+    position: static;
+ }
+
+ .flex-container2 {
+     display: flex;
+     background-image: url("../images/indexbg.jpg");
+     height: 30em;
+     flex-flow: row wrap;
+ }
+
+ .flex-container2 > div {
+     display: flex;
+     width: 50%;
+ }
+
+ .flex-container3 {
+     display: flex;
+     background-image: url("../images/indexbg.jpg");
+     height: 30em;
+     flex-flow: column wrap;
+     align-items: center;
+     justify-content: space-around;
+ }
+
+ .suform {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 1em;
+     font-family: 'Exo', sans-serif;
+     padding: 5em;
+     display:flex;
+     height:60%;
+     width: 30%;
+     align-content: space-around;
+     background-color: rgba(0, 166, 255, 0.912);
+ }
+
+ .sub {
+     border: 5px ;
+ }
+
+.suform > div {
+    border: 4px;
+}
+ .suform > input {
+     width: 10px;
+     height: 5px;
+ }
+ .side1 {
+     background-color: rgba(0, 0, 0, 0.802)
+ }
+
+ .side2 {
+     background-color: rgba(0, 166, 255, 0.535)
  }
  
  .logo {
-     height: 100px;
+     height: 50px;
  }
  
  .logo:hover {
      cursor: pointer;
  }
  .flex-container h1 {
-     font-size: 60px;
+     font-size: 40px;
      padding: 0px;
  }
  
  button {
-     height: 80px;
+     height: 40px;
      width: 110px;
      font-family: 'Exo', sans-serif;
      font-size: 20px;
      border: 0;
+     border-radius: 5px;
+
  }
  
  .log {
-     background-color: rgba(255, 166, 0, 0.713);
+     background-color: rgba(0, 51, 255, 0.529);
      color: white;
  }
  
@@ -43,30 +106,37 @@
  }
  
  .reg {
-     font-family: 'Exo', sans-serif;
-     font-size: 20px;
      color: white;
  }
  
  .reg:hover {
+     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
      color: black;
+     background-color: white;
+     cursor: pointer;
  }
  
  .flex-container input{
-     font-size: 30px;
+     font-size: 20px;
      border: 1px solid grey;
      border-radius: 10px;
+     padding: 3px;
+ } 
+
+ .footer-container {
+     background-color: bisque;
+     height: 10em;
+     align-content: flex-end
  }
 
- .container {
-     display: flex;
-     flex-direction: row;
-     height:70%;
-     width: 100%;
-     align-content: stretch;   
- }
-
- .pic {
-     width: 50%;
-     height: 50%;
+ .bgpic {
+     align-self: center;
+     align-content: space-around;
+     background-color: rgba(0, 166, 255, 0.453);
+     color: white;
+     height: 10em;
+     width: 40em;
+     font-family: 'Exo', sans-serif;
+     font-size: 2em;
+     padding: 0em;
  }
