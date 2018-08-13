@@ -1,3 +1,4 @@
+
 .flex-container {
     display: flex;
     background-color: rgba(7, 164, 249, 0.789);
@@ -61,7 +62,7 @@
  }
 
  .container {
-     background-image: url("images/backg");
+     background-image: url("backg.png");
      display: flex;
      flex-direction: row;
      height:70%;
