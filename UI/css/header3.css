@@ -40,7 +40,30 @@
  }
 
  .row1 {
+     display: flex;
+     flex-flow: row wrap;
      background-color: rgba(0, 255, 255, 0.508);
+ }
+
+ .row1 > div {
+     display: flex;
+     width: 25%;
+ }
+
+ .col1 {
+     background-color: rgba(137, 43, 226, 0.803);
+ }
+
+ .col2{
+     background-color: orange;
+ }
+
+ .col3 {
+     background-color: rgba(172, 255, 47, 0.72);
+ }
+
+ .col4 {
+     background-color: rgba(240, 255, 255, 0.775);
  }
 .row2 {
     background-color: rgba(165, 42, 42, 0.611);
