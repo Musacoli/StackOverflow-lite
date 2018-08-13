@@ -23,11 +23,28 @@
      height: 30em;
      flex-flow: row wrap;
  }
-
+.flex-container4 {
+     display: flex;
+     background-image: url("../images/indexbg.jpg");
+     height: 30em;
+     flex-flow: column wrap;
+}
  .flex-container2 > div {
      display: flex;
      width: 50%;
  }
+
+ .flex-container4 > div{
+     display: flex;
+     height: 50%;
+ }
+
+ .row1 {
+     background-color: rgba(0, 255, 255, 0.508);
+ }
+.row2 {
+    background-color: rgba(165, 42, 42, 0.611);
+}
 
  .flex-container3 {
      display: flex;
@@ -126,9 +143,12 @@
  } 
 
  .footer-container {
-     background-color: bisque;
-     height: 10em;
-     align-content: flex-end
+    display: flex;
+    justify-content: space-between;
+    background-color: bisque;
+    height: 10em;
+    align-content: flex-end;
+    color: black;
  }
 
  .bgpic {

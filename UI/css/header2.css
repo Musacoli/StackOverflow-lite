@@ -22,11 +22,13 @@
      background-image: url("../images/indexbg.jpg");
      height: 30em;
      flex-flow: row wrap;
+     justify-content: space-around;
  }
 
  .flex-container2 > div {
      display: flex;
      width: 50%;
+     justify-content: space-around;
  }
 
  .flex-container3 {
@@ -133,9 +135,12 @@
  } 
 
  .footer-container {
-     background-color: bisque;
-     height: 10em;
-     align-content: flex-end
+    display: flex;
+    justify-content: space-between;
+    background-color: bisque;
+    height: 10em;
+    align-content: flex-end;
+    color: black;
  }
 
  .bgpic {

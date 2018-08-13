@@ -77,9 +77,12 @@
  } 
 
  .footer-container {
+     display: flex;
+     justify-content: space-between;
      background-color: bisque;
      height: 10em;
-     align-content: flex-end
+     align-content: flex-end;
+     color: black;
  }
 
  .bgpic {
