@@ -51,11 +51,16 @@
  }
 
  .col1 {
-     background-color: rgba(137, 43, 226, 0.803);
+     background-image: url(../images/binary.jpg);
  }
 
  .col2{
+     display: flex;
+     flex-direction: column;
+     justify-content: space-around;
      background-color: orange;
+     color: white;
+     font-family: 'Exo', sans-serif;
  }
 
  .col3 {
@@ -63,7 +68,18 @@
  }
 
  .col4 {
-     background-color: rgba(240, 255, 255, 0.775);
+     display: flex;
+     flex-flow: column wrap;
+     height: 33%
+ }
+ .crow1 {
+    background-color: rgba(0, 0, 255, 0.645);
+ }
+ .crow2 {
+    background-color: rgba(0, 0, 255, 0.645);
+ }
+ .crow3 {
+    background-color: grey;
  }
 .row2 {
     background-color: rgba(165, 42, 42, 0.611);
