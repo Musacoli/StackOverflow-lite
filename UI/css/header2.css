@@ -67,7 +67,14 @@
      border: 5px ;
  }
 
+ .suform {
+     display: flex;
+     flex-flow: column wrap;
+     justify-content: space-around;
+ }
 .suform > div {
+    text-align: center;
+    display: flex;
     border: 4px;
 }
  .suform > input {
@@ -137,7 +144,7 @@
  .footer-container {
     display: flex;
     justify-content: space-between;
-    background-color: bisque;
+    background-color: rgba(0, 166, 255, 0.905);
     height: 10em;
     align-content: flex-end;
     color: black;
