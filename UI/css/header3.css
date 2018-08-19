@@ -57,28 +57,55 @@
      display: flex;
      width: 100%;
      font-family: 'Exo', sans-serif;
+     border-radius: 10px;
  }
 
  .r1 {
-     background-color: rgba(165, 42, 42, 0.719);
+     background-color: rgba(0, 166, 255, 0.253);
      height: 20%;
      text-align: center;
      padding: 3px;
      color: white;
  }
  .r2 {
-     background-color: rgba(255, 0, 212, 0.507);
+     background-color: rgba(255, 187, 0, 0.52);
      height: 30%;
      text-align: center;
      padding: 3px;
      color: white;
  }
  .r3 {
-     background-color: rgba(255, 255, 255, 0.698);
+     display: flex;
+     background-color: rgba(255, 255, 255, 0.493);
      height: 45%;
      text-align: center;
      padding: 3px;
      color: white;
+     flex-flow: column wrap;
+ }
+
+ .r3 > div {
+     display: flex;
+     justify-content: space-evenly;
+     align-items: center;
+ }
+
+ .r31 {
+     display: flex;
+     flex-flow: row wrap;
+     background-color: rgba(0, 166, 255, 0.979);
+ }
+
+ .log1 {
+     background-color: rgba(0, 51, 255, 0.529);
+     color: white;
+ }
+
+.log1:hover {
+     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+     color: black;
+     background-color: white;
+     cursor: pointer;
  }
 
  .row1 {
@@ -112,7 +139,7 @@
  .col2 > div {
      display: flex;
      height: 30%;
-     background-color: rgba(0, 166, 255, 0.712);
+     background-color: rgba(0, 166, 255, 0.198);
      border-radius: 5px;
  }
 
@@ -127,7 +154,7 @@
  .col3 > div {
      display: flex;
      height: 30%;
-     background-color: rgba(0, 166, 255, 0.712);
+     background-color: rgba(0, 166, 255, 0.198);
      border-radius: 5px;
  }
 
