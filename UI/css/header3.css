@@ -29,6 +29,8 @@
      background-image: url("../images/indexbg.jpg");
      height: 30em;
      flex-flow: column wrap;
+     padding: 10px;
+     justify-content: space-between;
 }
  .flex-container2 > div {
      display: flex;
@@ -37,7 +39,7 @@
 
  .flex-container4 > div{
      display: flex;
-     height: 50%;
+     height: 48%;
      font-family: 'Exo', sans-serif;
  }
 
@@ -82,12 +84,16 @@
  .row1 {
      display: flex;
      flex-flow: row wrap;
-     background-color: rgba(0, 255, 255, 0.508);
+     border-radius: 10px;
+     justify-content: space-between;
  }
 
  .row1 > div {
      display: flex;
-     width: 25%;
+     width: 24.5%;
+     border-radius: 10px;
+     font-size: 12px;
+     text-align: center;
  }
 
  .col1 {
@@ -97,36 +103,97 @@
  .col2{
      display: flex;
      flex-direction: column;
-     justify-content: center;
-     background-color: orange;
      color: white;
+     text-align: center;
      font-family: 'Exo', sans-serif;
+     justify-content: space-between;
+ }
+
+ .col2 > div {
+     display: flex;
+     height: 30%;
+     background-color: rgba(0, 166, 255, 0.712);
+     border-radius: 5px;
  }
 
  .col3 {
      display: flex;
      flex-direction: column;
-     justify-content: center;
-     background-color: rgba(172, 255, 47, 0.72);
      color: white;
+     font-family: 'Exo', sans-serif;
+     text-align: center;
+     justify-content: space-between;
+ }
+ .col3 > div {
+     display: flex;
+     height: 30%;
+     background-color: rgba(0, 166, 255, 0.712);
+     border-radius: 5px;
  }
 
  .col4 {
      display: flex;
-     flex-flow: column wrap;
-     height: 33%
+     flex-direction: column;
+     color: white;
+     font-family: 'Exo', sans-serif;
+     justify-content: space-between;
  }
+
+ .col4 > div {
+    display: flex;
+    height: 30%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+ }
+
  .crow1 {
-    background-color: rgba(0, 0, 255, 0.645);
+    background-color: rgba(0, 166, 255, 0.712);
  }
  .crow2 {
-    background-color: rgba(0, 0, 255, 0.645);
+    background-color: rgba(0, 166, 255, 0.712);
  }
  .crow3 {
-    background-color: grey;
+     display:flex;
+     text-align: center;
+     
  }
 .row2 {
-    background-color: rgba(165, 42, 42, 0.611);
+    display: flex;
+    flex-flow: column wrap;
+    background-color: rgba(255, 255, 255, 0.644);
+    border-radius: 10px;
+}
+.cl {
+    display: flex;
+    flex-flow: column wrap;
+    padding: 2px;
+}
+.cl > div {
+    display: flex;
+    flex-flow: column wrap;
+    height: 30%;
+}
+.ched {
+    background-color: rgba(0, 0, 255, 0.931);
+    padding: 0px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.crow3 > button {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    background-color: rgba(0, 0, 255, 0.931);
+}
+
+.crow3 button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: rgba(255, 166, 0, 0.897);
 }
 
  .flex-container3 {
