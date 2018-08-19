@@ -27,6 +27,9 @@
 
  .flex-container2 > div {
      display: flex;
+     align-items: center;
+     align-content: space-around;
+     text-align: center;
      width: 50%;
      justify-content: space-around;
  }
@@ -38,20 +41,20 @@
      flex-flow: column wrap;
      align-items: center;
      justify-content: space-around;
+     padding: 15px;
  }
 
  .suform {
      display: flex;
-     justify-content: center;
+     justify-content: space-around;
      align-items: center;
      font-size: 1em;
      font-family: 'Exo', sans-serif;
-     padding: 5em;
-     height:60%;
      width: 30%;
-     align-content: space-around;
      background-color: rgba(0, 166, 255, 0.912);
+     flex-flow: row wrap;
  }
+
  .suform1 {
      display: flex;
      justify-content: space-around;
@@ -67,11 +70,11 @@
      border: 5px ;
  }
 
- .suform {
-     display: flex;
-     flex-flow: column wrap;
-     justify-content: space-around;
+ .sub:hover {
+     cursor: pointer;
+     color: aliceblue;
  }
+ 
 .suform > div {
     text-align: center;
     display: flex;
@@ -151,8 +154,8 @@
  }
 
  .bgpic {
-     align-self: center;
-     align-content: space-around;
+     display: flex;
+     justify-content: space-around;
      background-color: rgba(0, 166, 255, 0.453);
      color: white;
      height: 10em;
