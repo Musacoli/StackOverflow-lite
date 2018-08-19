@@ -206,17 +206,14 @@
  }
 
  .suform {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     font-size: 1em;
-     font-family: 'Exo', sans-serif;
-     padding: 5em;
-     display:flex;
-     height:60%;
-     width: 30%;
-     align-content: space-around;
-     background-color: rgba(0, 166, 255, 0.912);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1em;
+    font-family: 'Exo', sans-serif;
+    width: 30%;
+    background-color: rgba(0, 166, 255, 0.912);
+    flex-flow: row wrap;
  }
 
  .sub {
