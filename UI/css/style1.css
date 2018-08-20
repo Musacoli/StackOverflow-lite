@@ -148,6 +148,7 @@
     display: flex;
     justify-content: space-between;
     background-color: rgba(0, 166, 255, 0.905);
+    font-family: 'Exo', sans-serif;
     height: 10em;
     align-content: flex-end;
     color: black;
