@@ -19,14 +19,14 @@
 
  .flex-container2 {
      display: flex;
-     background-image: url("../images/indexbg.jpg");
+     background-color: #C9C9C9;
      height: 30em;
      flex-flow: row wrap;
      justify-content: space-around;
  }
 .flex-container4 {
      display: flex;
-     background-image: url("../images/indexbg.jpg");
+     background-color: #C9C9C9;
      height: 30em;
      flex-flow: column wrap;
      padding: 10px;
@@ -45,7 +45,7 @@
 
  .flex-container5 {
      display: flex;
-     background-image: url("../images/indexbg.jpg");
+     background-color: #C9C9C9;
      height: 30em;
      flex-flow: column wrap;
      justify-content: space-between;
@@ -156,8 +156,8 @@
  .col2 > div {
      display: flex;
      height: 30%;
-     background-color: rgba(0, 166, 255, 0.198);
-     border-radius: 5px;
+     border-radius: 10px;
+     border: 1.5px dotted white;
  }
 
  .col3 {
@@ -171,8 +171,8 @@
  .col3 > div {
      display: flex;
      height: 30%;
-     background-color: rgba(0, 166, 255, 0.198);
      border-radius: 5px;
+     border: 1.5px dotted white;
  }
 
  .col4 {
@@ -188,6 +188,7 @@
     height: 30%;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    border: 1.5px dotted white;
  }
 
  .crow1 {
