@@ -22,16 +22,16 @@
                             <div><h1>Question Form</h1></div>
                             <div>
                             <form>
-                                <div>Select Stack: <select>
+                                <div>Select Stack: <select required>
                                     <option name="Java">Java</option>
                                     <option name="Python">Python</option>
                                     <option name="HTML/CSS/JS">HTML</option>
                                     <option name="RUBY">Ruby</option>
                                     <option name="C++">C++</option>
                                 </select></div><br>
-                                <div>Question Title: <input type="text" name="Surname" ></div><br>
-                                <div>Description:<br>  <textarea rows="15" cols="30"></textarea></div><br>
-                                <div class="sub"><input type="submit" onclick="alert('Question submitted!')" value="Submit" formaction="q_a_page.html"></div>
+                                <div>Question Title: <input type="text" name="question" required></div><br>
+                                <div>Description:<br>  <textarea rows="15" cols="30" required></textarea></div><br>
+                                <div class="sub"><input type="submit" value="Submit" formaction="q_a_page.html"></div>
                             </form>
                         </div>
                         </div>
