@@ -1,2 +1,2 @@
 import pytest
-from app.routes import 
+from app.routes import app, stack
