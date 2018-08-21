@@ -37,16 +37,3 @@ class Questions(object):
 
     def view_answers(self, qid):
         return self.answers[qid]
-
-test = Questions()
-print (test.add_questions('what are you'))
-print (test.add_questions('what are your'))
-print (test.add_questions('what are yes'))
-print (test.add_questions('what are you'))
-print (test.add_questions('what are your'))
-print (test.add_questions('what are yes'))
-print (test.view_question(1))
-print (test.view_questions())
-print (test.add_answer(2,'This is the answer'))
-print (test.add_answer(2,'This is another answer'))
-print (test.add_answer(2,'This is the last answer'))

@@ -1,0 +1,6 @@
+{
+  "tests/test_questions.py::TestForQuestions::test_if_a_question_is_viewed": true,
+  "tests/test_questions.py::TestForQuestions::test_if_an_answer_is_added": true,
+  "tests/test_questions.py::TestForQuestions::test_if_answers_are_viewed": true,
+  "tests/test_questions.py::TestForQuestions::test_if_question_is_added": true
+}
