@@ -1,2 +1,2 @@
-web: python app/routes.py app/questions.py
+web: python
 heroku ps:scale web=1
