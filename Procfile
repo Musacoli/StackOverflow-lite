@@ -1,2 +1,1 @@
-web: python app/questions.py
-web: python app/routes.py
+web: python app:questions.py app:routes.py
