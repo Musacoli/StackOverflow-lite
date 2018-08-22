@@ -1,6 +1,6 @@
 import unittest
 import pytest
-from app.routes import app
+from app.app import app
 
 class TestForEndpoints(unittest.TestCase):
     def setUp(self):
