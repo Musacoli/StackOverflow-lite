@@ -1,11 +1,10 @@
 import unittest
 import pytest
-from app.routes import app, stack
+from app.routes import app
 
 class TestForEndpoints(unittest.TestCase):
     def setUp(self):
         self.app = app
-        self.stack = stack
         self.client = self.app.test_client
 
     def test_for_hello_route(self):
