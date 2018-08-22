@@ -1,1 +1,1 @@
-web: python app:questions.py app:routes.py
+web: gunicorn app:app
