@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort
-from questions import Questions
+from .questions import Questions
 
 app = Flask(__name__)
 
