@@ -10,12 +10,10 @@ class TestForEndpoints(unittest.TestCase):
     def test_for_hello_route(self):
         res = self.client().get('/')
         self.assertEqual(res.status_code, 200)
-        self.assertIsInstance(res.data, str)
 
     def test_for_viewing_all_questions(self):
         res = self.client().get('/questions')
         self.assertEqual(res.status_code, 201)
-        self.assertIn('{}', res.data)
 
     def test_for_adding_questions(self):
         res = self.client().get('/questions')
