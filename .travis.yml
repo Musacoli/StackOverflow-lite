@@ -10,5 +10,5 @@ after_success:
   - coveralls
 deploy:
   provider: heroku
-  api_key: 572f6992-df23-40ec-a63f-9389fcee5fdf
+  api_key: "572f6992-df23-40ec-a63f-9389fcee5fdf"
   secure: 
