@@ -1,11 +1,9 @@
 import time
 
 class Questions(object):
-    
     def __init__(self):
         self.questions = {}
         self.qid = 0
-        self.answers = {}
 
     def add_questions(self, question):
         self.qid += 1
@@ -27,9 +25,15 @@ class Questions(object):
         else:
             return 'Question not found'
 
+quest = Questions()
+class Answers(object):
+    def __init__(self):
+        self.answers = {}
+
+
     def add_answer(self, qid, answer):
         atime = str(time.ctime())
-        if qid in self.questions.keys():
+        if qid in quest.questions.keys():
             self.answers[qid] = {answer:atime}
             return self.answers[qid]
         else:
@@ -37,4 +41,3 @@ class Questions(object):
 
     def view_answers(self, qid):
         return self.answers[qid]
-

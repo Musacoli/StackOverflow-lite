@@ -6,8 +6,8 @@ app = Flask(__name__)
 stack = Questions()
 
 @app.route('/', methods=['GET', 'POST'])
-def hello():
-    return jsonify('Hello there!')
+def welcome():
+    return jsonify('Welcome to the StackOverflow-lite website')
 
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
@@ -34,8 +34,10 @@ def view_a_question(questionid):
 
 @app.route('/questions/<int:questionid>/answers', methods=['GET','POST'])
 def add_an_answer(questionid):
+    data = request.get_json()
     if request.method == 'POST':
-        return jsonify(stack.add_answer(questionid, 'This is the most correct answer'))
+        answer = data.get("answer")
+        return jsonify(stack.add_answer(questionid, answer))
     elif request.method == 'GET':
         return jsonify(stack.view_answers(questionid))
     else:
