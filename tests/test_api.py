@@ -1,6 +1,7 @@
 import unittest
 import pytest
-from app.questions import Questions
+from app.models import Questions
+from app.views import app
 
 class TestForQuestions(unittest.TestCase):
     def setUp(self):
@@ -24,6 +25,31 @@ class TestForQuestions(unittest.TestCase):
         self.quest.add_questions('What is a boolean')
         self.quest.add_answer(1,'the answer')
         assert isinstance(self.quest.view_answers(1), dict)
+
+class TestForEndpoints(unittest.TestCase):
+    def setUp(self):
+        self.app = app
+        self.client = self.app.test_client
+
+    def test_for_hello_route(self):
+        res = self.client().get('/')
+        self.assertEqual(res.status_code, 200)
+
+    def test_for_viewing_all_questions(self):
+        res = self.client().get('/questions')
+        self.assertEqual(res.status_code, 201)
+
+    def test_for_adding_questions(self):
+        res = self.client().get('/questions')
+        self.assertEqual(res.status_code, 201)
+
+    def test_for_viewing_a_question(self):
+        res = self.client().get('/questions')
+        self.assertEqual(res.status_code, 201)
+
+    def test_for_adding_answers(self):
+        res = self.client().get('/questions')
+        self.assertEqual(res.status_code, 201)
 
 if __name__ == '__main__':
     unittest.main()

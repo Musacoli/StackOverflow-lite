@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort
-from .questions import Questions
+from .models import Questions
 
 app = Flask(__name__)
 
@@ -18,8 +18,10 @@ def view_all_questions():
 
 @app.route('/questions', methods=['POST'])
 def add_question():
+    data = request.get_json()
+    question = data.get("question")
     if request.method == 'POST':
-        return jsonify(stack.add_questions('What is a boolean?')), 201
+        return jsonify(stack.add_questions(question)), 201
     else:
         abort(405)
 

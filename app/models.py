@@ -37,3 +37,4 @@ class Questions(object):
 
     def view_answers(self, qid):
         return self.answers[qid]
+
