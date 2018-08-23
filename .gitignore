@@ -1,0 +1,4 @@
+.pytest_cache
+.gitatributes
+.coverage
+__pycache__
