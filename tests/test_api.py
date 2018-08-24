@@ -12,6 +12,12 @@ class TestForQuestions(unittest.TestCase):
     def test_if_question_is_added(self):
         assert isinstance(self.quest.add_questions('What is a boolean'),  dict)
 
+    def test_for_duplicate_questionids(self):
+        q1 = self.quest.add_questions('What is a boolean?')
+        q2 = self.quest.add_questions('What is a tuple?')
+        assert q1 == self.quest.questions[1]
+        assert q2 == self.quest.questions[2]
+
     def test_if_questions_can_be_viewed(self):
         assert isinstance(self.quest.view_questions(), dict)
 
