@@ -3,7 +3,7 @@ import time
 class Questions(object):
     def __init__(self):
         self.questions = {}
-        self.qid = 0
+        self.qid = 1
         self.answers = {}
 
     def add_questions(self, question):
