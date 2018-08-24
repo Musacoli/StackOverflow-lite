@@ -37,19 +37,24 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_for_viewing_all_questions(self):
+        
         res = self.client().get('/questions')
         self.assertEqual(res.status_code, 201)
 
     def test_for_adding_questions(self):
-        res = self.client().get('/questions')
+        res = self.client().post('/questions')
         self.assertEqual(res.status_code, 201)
 
     def test_for_viewing_a_question(self):
-        res = self.client().get('/questions')
+        res = self.client().get('/questions/<int:questionid>')
+        self.assertEqual(res.status_code, 201)
+
+    def test_for_viewing_answers(self):
+        res = self.client().get('/questions/<int:questionid>/answers')
         self.assertEqual(res.status_code, 201)
 
     def test_for_adding_answers(self):
-        res = self.client().get('/questions')
+        res = self.client().post('/questions<int:questionid>/answers')
         self.assertEqual(res.status_code, 201)
 
 if __name__ == '__main__':

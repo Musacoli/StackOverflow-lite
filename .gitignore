@@ -1,7 +1,8 @@
-.pytest_cache
+/.pytest_cache
 *.pytest_cache
 .gitatributes
 .coverage
+/__pycache__
 __pycache__
 *__pycache__
 *.pyc

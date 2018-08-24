@@ -41,7 +41,7 @@ class Answers(object):
             self.answers[qid] = {answer:atime}
             return self.answers[qid]
         else:
-            return 'Failed to find question to comment on'
+            return 'Failed to find question to answer'
 
     def view_answers(self, qid):
         return self.answers[qid]
