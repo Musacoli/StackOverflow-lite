@@ -3,8 +3,11 @@ python:
   - "3.5"
 install:
   - pip install -r requirements.txt
-  
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install coveralls
 script:
-  - pytest --cov 
+  - py.test tests/test_api.py
+  - pytest --cov app
 after_success:
   - coveralls
