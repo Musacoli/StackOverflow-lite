@@ -7,16 +7,11 @@ class Questions(object):
         self.answers = {}
 
     def add_questions(self, question):
-        self.qid += 1
         self.ptime = str(time.ctime())
         if self.qid in self.questions.keys():
             self.qid += 1
-            for qdict in self.questions.values():
-                if question in qdict.keys():
-                    return "Duplicate question detected"
-                else:
-                    self.questions[self.qid] = {question:self.ptime}
-                    return self.questions[self.qid]
+            self.questions[self.qid] = {question:self.ptime}
+            return self.questions[self.qid]
         else:
             self.questions[self.qid] = {question:self.ptime}
             return self.questions[self.qid]
