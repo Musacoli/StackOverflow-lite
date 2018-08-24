@@ -10,8 +10,12 @@ class Questions(object):
         self.ptime = str(time.ctime())
         if self.qid in self.questions.keys():
             self.qid += 1
-            self.questions[self.qid] = {question:self.ptime}
-            return self.questions[self.qid]
+            for qdict in self.questions.values():
+                if question in qdict.keys():
+                    return "Duplicate question detected"
+                else:
+                    self.questions[self.qid] = {question:self.ptime}
+                    return self.questions[self.qid]
         else:
             self.questions[self.qid] = {question:self.ptime}
             return self.questions[self.qid]
@@ -41,3 +45,17 @@ class Answers(object):
 
     def view_answers(self, qid):
         return self.answers[qid]
+
+"""test = Questions()
+
+test.add_questions("what")
+test.add_questions("who")
+test.add_questions("when")
+test.add_questions("where")
+for qdict in test.questions.values():
+    if "what" in qdict.keys():
+        print ("True")
+        break
+    else:
+        print ("False")
+    print(qdict.keys())"""

@@ -1,11 +1,12 @@
 import unittest
 import pytest
-from app.models import Questions
+from app.models import Questions, Answers
 from app.views import app
 
 class TestForQuestions(unittest.TestCase):
     def setUp(self):
         self.quest = Questions()
+        self.ans = Answers()
 
     def test_if_question_is_added(self):
         assert isinstance(self.quest.add_questions('What is a boolean'),  dict)
@@ -19,12 +20,12 @@ class TestForQuestions(unittest.TestCase):
 
     def test_if_an_answer_is_added(self):
         self.quest.add_questions('What is a boolean')
-        assert isinstance(self.quest.add_answer(1,'the answer'), dict)
+        assert isinstance(self.ans.add_answer(1,'the answer'), dict)
 
     def test_if_answers_are_viewed(self):
         self.quest.add_questions('What is a boolean')
-        self.quest.add_answer(1,'the answer')
-        assert isinstance(self.quest.view_answers(1), dict)
+        self.ans.add_answer(1,'the answer')
+        assert isinstance(self.ans.view_answers(1), dict)
 
 class TestForEndpoints(unittest.TestCase):
     def setUp(self):
