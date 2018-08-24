@@ -2,7 +2,7 @@ import unittest
 import pytest
 from app.models import Questions, Answers
 from app.views import app
-from flask import jsonify
+from flask import jsonify, json
 
 class TestForQuestions(unittest.TestCase):
     def setUp(self):
@@ -39,13 +39,13 @@ class TestForEndpoints(unittest.TestCase):
         res = self.client().get('/')
         self.assertEqual(res.status_code, 200)
 
+    def test_for_adding_questions(self):
+        res = self.client().post('/questions', data=jsonify(self.quest.add_questions("What is a boolean?")))
+        self.assertEqual(res.status_code, 201)
+"""
     def test_for_viewing_all_questions(self):
         self.client().post('/questions', data=jsonify(self.quest.add_questions("What is a boolean?")))
         res = self.client().get('/questions')
-        self.assertEqual(res.status_code, 201)
-
-    """def test_for_adding_questions(self):
-        res = self.client().post('/questions')
         self.assertEqual(res.status_code, 201)
 
     def test_for_viewing_a_question(self):
