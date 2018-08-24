@@ -24,7 +24,9 @@ def add_question():
     data = request.get_json()
     question = str(data.get("question"))
     if request.method == 'POST':
-        if question.isnumeric():
+        if question.isspace() :
+            return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
+        elif question.isnumeric():
             return make_response(jsonify("Invalid Input, please try again!")), 400
         elif question is None:
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
