@@ -1,4 +1,4 @@
-*/.pytest_cache/*
+.pytest_cache/
 */tests/.pytest_cache/*
 */.gitatributes/*
 */.coveragerc/*
