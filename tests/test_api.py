@@ -46,8 +46,6 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_for_adding_questions(self):
-        res1 = self.client().post('/questions', data=json.dumps(self.quest.add_questions("       ")), content_type="application/json")
-        self.assertEqual(res1.status_code, 400)
         res2 = self.client().post('/questions', data=json.dumps(self.quest.add_questions("")), content_type="application/json")
         self.assertEqual(res2.status_code, 400)
         res = self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
