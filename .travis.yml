@@ -4,9 +4,11 @@ python:
 cache: pip
 install:
   - pip install -r requirements.txt
+  - pip install pytest
+  - pip install pytest-cov
   - pip install coveralls
 script:
-  - pytest
+  - py.test tests/test_api.py
   - pytest --cov app
 after_success:
   - coveralls
