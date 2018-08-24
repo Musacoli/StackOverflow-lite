@@ -33,7 +33,7 @@ def add_question():
 @app.route('/questions/<int:questionid>', methods=['GET'])
 def view_a_question(questionid):
     if request.method == 'GET':
-        return jsonify(stack.view_question(questionid)), 201
+        return jsonify(stack.view_question(questionid)), 200
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
 def add_an_answer(questionid):
@@ -47,7 +47,7 @@ def add_an_answer(questionid):
         elif (answer == None) or (len(answer) <= 0) or answer.isspace():
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
         else:
-            return jsonify(ans.add_answer(questionid, answer))
+            return jsonify(ans.add_answer(questionid, answer)), 201
     else:
         abort(405)
 
@@ -55,7 +55,7 @@ def add_an_answer(questionid):
 def view_answers(questionid):
     if request.method == 'GET':
         if questionid in stack.questions.keys():
-            return jsonify(ans.view_answers(questionid))
+            return jsonify(ans.view_answers(questionid)), 200
         else:
             return make_response(jsonify("Failed to locate question to answer")), 404
 

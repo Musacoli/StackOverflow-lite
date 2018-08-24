@@ -8,5 +8,6 @@
   "tests/test_api.py::TestForEndpoints::test_for_adding_questions", 
   "tests/test_api.py::TestForEndpoints::test_for_hello_route", 
   "tests/test_api.py::TestForEndpoints::test_for_viewing_a_question", 
-  "tests/test_api.py::TestForEndpoints::test_for_viewing_all_questions"
+  "tests/test_api.py::TestForEndpoints::test_for_viewing_all_questions", 
+  "tests/test_api.py::TestForEndpoints::test_for_viewing_answers"
 ]

@@ -40,25 +40,29 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_for_adding_questions(self):
-        res = self.client().post('/questions', data=jsonify(self.quest.add_questions("What is a boolean?")))
+        res = self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
         self.assertEqual(res.status_code, 201)
-"""
+
     def test_for_viewing_all_questions(self):
-        self.client().post('/questions', data=jsonify(self.quest.add_questions("What is a boolean?")))
+        self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
         res = self.client().get('/questions')
-        self.assertEqual(res.status_code, 201)
+        self.assertEqual(res.status_code, 200)
 
     def test_for_viewing_a_question(self):
-        res = self.client().get('/questions/<int:questionid>')
-        self.assertEqual(res.status_code, 201)
+        self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
+        res = self.client().get('/questions/1')
+        self.assertEqual(res.status_code, 200)
 
     def test_for_viewing_answers(self):
-        res = self.client().get('/questions/<int:questionid>/answers')
-        self.assertEqual(res.status_code, 201)
+        self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
+        self.client().post('/questions/1/answers', data=json.dumps(self.quest.add_questions("This is the answer")), content_type="application/json")
+        res = self.client().get('/questions/1/answers')
+        self.assertEqual(res.status_code, 200)
 
     def test_for_adding_answers(self):
-        res = self.client().post('/questions<int:questionid>/answers')
-        self.assertEqual(res.status_code, 201)"""
+        self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
+        res = self.client().post('/questions/1/answers', data=json.dumps(self.quest.add_questions("This is a test answer")), content_type="application/json")
+        self.assertEqual(res.status_code, 201)
 
 if __name__ == '__main__':
     unittest.main()
