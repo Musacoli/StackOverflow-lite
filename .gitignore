@@ -1,9 +1,8 @@
-.pytest_cache/
+*.pytest_cache/
 */tests/.pytest_cache/*
-*/.gitatributes/*
-*/.coveragerc/*
+*.gitatributes
+*.coveragerc
 */app/__pycache__/*
 */tests/__pycache__/*
 */__pycache__/*
-*/.pyc/*
 *.pyc
