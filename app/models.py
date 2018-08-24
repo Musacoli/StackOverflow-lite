@@ -37,10 +37,7 @@ class Answers(Questions):
         return self.answers[qid]
 
     def view_answers(self, qid):
-        if qid in self.questions.keys():
             return self.answers[qid]
-        else:
-            return "No answers available to display"
 
 """test = Questions()
 
