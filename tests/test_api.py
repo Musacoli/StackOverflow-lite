@@ -40,7 +40,7 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
 
     def test_for_viewing_all_questions(self):
-        self.client().post('/questions', jsonify(self.quest.add_questions("What is a boolean?")))
+        self.client().post('/questions', data=jsonify(self.quest.add_questions("What is a boolean?")))
         res = self.client().get('/questions')
         self.assertEqual(res.status_code, 201)
 
