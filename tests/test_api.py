@@ -41,7 +41,7 @@ class TestForEndpoints(unittest.TestCase):
     def test_for_viewing_all_questions(self):
         self.quest.add_questions("What is a boolean?")
         res = self.client().get('/questions')
-        
+
         self.assertEqual(res.status_code, 201)
 
     def test_for_adding_questions(self):

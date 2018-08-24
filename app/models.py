@@ -4,6 +4,7 @@ class Questions(object):
     def __init__(self):
         self.questions = {}
         self.qid = 0
+        self.answers = {}
 
     def add_questions(self, question):
         self.qid += 1
@@ -29,22 +30,20 @@ class Questions(object):
         else:
             return 'Question not found'
 
-quest = Questions()
-class Answers(object):
-    def __init__(self):
-        self.answers = {}
-
-
+class Answers(Questions):
     def add_answer(self, qid, answer):
         atime = str(time.ctime())
-        if qid in quest.questions.keys():
+        if qid in self.questions.keys():
             self.answers[qid] = {answer:atime}
             return self.answers[qid]
         else:
             return 'Failed to find question to answer'
 
     def view_answers(self, qid):
-        return self.answers[qid]
+        if qid in self.answers.keys():
+            return self.answers[qid]
+        else:
+            return "No answers available to display"
 
 """test = Questions()
 

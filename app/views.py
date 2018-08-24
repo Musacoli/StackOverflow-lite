@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort, make_response
-from .models import Questions, Answers
+from models import Questions, Answers
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def view_a_question(questionid):
     if request.method == 'GET':
         return jsonify(stack.view_question(questionid)), 201
         
-@app.route('/questions/<int:questionid>/answers', methods=['GET','POST'])
+@app.route('/questions/<int:questionid>/answers', methods=['POST'])
 def add_an_answer(questionid):
     data = request.get_json()
     if request.method == 'POST':
@@ -48,10 +48,13 @@ def add_an_answer(questionid):
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
         else:
             return jsonify(ans.add_answer(questionid, answer))
-    elif request.method == 'GET':
-        return jsonify(ans.view_answers(questionid))
     else:
         abort(405)
+
+@app.route('/questions/<int:questionid>/answers', methods=['GET'])
+def view_answers(questionid):
+    if request.method == 'GET':
+        return jsonify(ans.view_answers(questionid))
 
 if __name__ == '__main__':
     app.run(debug=True)
