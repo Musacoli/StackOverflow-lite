@@ -23,6 +23,9 @@ def add_question():
     data = request.get_json()
     question = str(data.get("question"))
     if request.method == 'POST':
+        for qdict in stack.questions.values():
+            if question in qdict.keys():
+                return "Duplicate: Question already exists!"
         if question.isdigit():
             return make_response(jsonify("Invalid Input, please try again!")), 400
         elif (question == None) or (len(question) <= 0) or question.isspace():
