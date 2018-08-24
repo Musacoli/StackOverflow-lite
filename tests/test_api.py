@@ -41,7 +41,7 @@ class TestForEndpoints(unittest.TestCase):
 
     def test_for_adding_questions(self):
         res = self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 201)
 
     def test_for_viewing_all_questions(self):
         self.client().post('/questions', data=json.dumps(self.quest.add_questions("What is a boolean?")), content_type="application/json")
