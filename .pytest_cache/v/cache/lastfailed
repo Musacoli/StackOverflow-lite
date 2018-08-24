@@ -1,4 +1,0 @@
-{
-  "tests/test_api.py::TestForEndpoints::test_for_adding_questions": true, 
-  "tests/test_routes.py::TestForEndpoints": true
-}

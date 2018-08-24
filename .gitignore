@@ -6,3 +6,16 @@ tests/.pytest_cache
 app/__pycache__/
 tests/__pycache__/
 *.pyc
+.pytest_cache/v/cache/lastfailed
+*.pyc
+.pytest_cache/v/cache/lastfailed
+.pytest_cache/v/cache/nodeids
+app/__pycache__/questions.cpython-35.pyc
+app/__pycache__/routes.cpython-35.pyc
+tests/.pytest_cache/README.md
+tests/.pytest_cache/v/cache/lastfailed
+tests/.pytest_cache/v/cache/nodeids
+tests/__pycache__/test_questions.cpython-27-PYTEST.pyc
+tests/__pycache__/test_questions.cpython-35-PYTEST.pyc
+tests/__pycache__/test_routes.cpython-27-PYTEST.pyc
+tests/__pycache__/test_routes.cpython-35-PYTEST.pyc

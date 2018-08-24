@@ -1,13 +1,13 @@
 [
-  "tests/test_api.py::TestForQuestions::test_if_a_question_is_viewed", 
-  "tests/test_api.py::TestForQuestions::test_if_an_answer_is_added", 
-  "tests/test_api.py::TestForQuestions::test_if_answers_are_viewed", 
-  "tests/test_api.py::TestForQuestions::test_if_question_is_added", 
-  "tests/test_api.py::TestForQuestions::test_if_questions_can_be_viewed", 
-  "tests/test_api.py::TestForEndpoints::test_for_adding_answers", 
-  "tests/test_api.py::TestForEndpoints::test_for_adding_questions", 
-  "tests/test_api.py::TestForEndpoints::test_for_hello_route", 
-  "tests/test_api.py::TestForEndpoints::test_for_viewing_a_question", 
-  "tests/test_api.py::TestForEndpoints::test_for_viewing_all_questions", 
+  "tests/test_api.py::TestForQuestions::test_if_a_question_is_viewed",
+  "tests/test_api.py::TestForQuestions::test_if_an_answer_is_added",
+  "tests/test_api.py::TestForQuestions::test_if_answers_are_viewed",
+  "tests/test_api.py::TestForQuestions::test_if_question_is_added",
+  "tests/test_api.py::TestForQuestions::test_if_questions_can_be_viewed",
+  "tests/test_api.py::TestForEndpoints::test_for_adding_answers",
+  "tests/test_api.py::TestForEndpoints::test_for_adding_questions",
+  "tests/test_api.py::TestForEndpoints::test_for_hello_route",
+  "tests/test_api.py::TestForEndpoints::test_for_viewing_a_question",
+  "tests/test_api.py::TestForEndpoints::test_for_viewing_all_questions",
   "tests/test_api.py::TestForEndpoints::test_for_viewing_answers"
 ]
