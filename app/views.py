@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, abort, make_response
 from app.models import Questions, Answers
+import re
 
 app = Flask(__name__)
 
@@ -23,9 +24,13 @@ def add_question():
     data = request.get_json()
     question = str(data.get("question"))
     if request.method == 'POST':
-        if question.isdigit() or (question is None):
+        if question.isspace() :
+            return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
+        elif question.isnumeric():
             return make_response(jsonify("Invalid Input, please try again!")), 400
-        elif  len(question) == 0 or question.isspace():
+        elif question is None:
+            return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
+        elif  len(question) <= 0:
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
         else:
             return jsonify(stack.add_questions(question)), 201
