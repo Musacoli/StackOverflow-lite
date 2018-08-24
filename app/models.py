@@ -13,7 +13,9 @@ class Questions(object):
             self.questions[self.qid] = {question:self.ptime}
             return self.questions[self.qid]
         else:
-            self.questions[self.qid] = {question:self.ptime}
+            self.questions[self.qid] = {"question" : question,
+                                        "time" : self.ptime
+                                        }
             return self.questions[self.qid]
     
     def view_questions(self):
@@ -28,7 +30,9 @@ class Questions(object):
 class Answers(Questions):
     def add_answer(self, qid, answer):
         atime = str(time.ctime())
-        self.answers[qid] = {answer:atime}
+        self.answers[qid] = {"answer" : answer,
+                            "time" : atime 
+                            }
         return self.answers[qid]
 
     def view_answers(self, qid):
