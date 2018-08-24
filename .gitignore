@@ -19,3 +19,7 @@ tests/__pycache__/test_questions.cpython-27-PYTEST.pyc
 tests/__pycache__/test_questions.cpython-35-PYTEST.pyc
 tests/__pycache__/test_routes.cpython-27-PYTEST.pyc
 tests/__pycache__/test_routes.cpython-35-PYTEST.pyc
+.pytest_cache/v/cache/nodeids
+.pytest_cache/README.md
+tests/__pycache__/__init__.cpython-35.pyc
+app/__pycache__/__init__.cpython-35.pyc
