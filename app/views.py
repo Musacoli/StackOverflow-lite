@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 stack = Questions()
 ans = Answers()
+data = request.get_json()
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
@@ -20,12 +21,8 @@ def view_all_questions():
 
 @app.route('/questions', methods=['POST'])
 def add_question():
-    data = request.get_json()
     question = str(data.get("question"))
     if request.method == 'POST':
-        for qdict in stack.questions.values():
-            if question in qdict.keys():
-                return "Duplicate: Question already exists!"
         if question.isdigit():
             return make_response(jsonify("Invalid Input, please try again!")), 400
         elif (question == None) or (len(question) <= 0) or question.isspace():
@@ -40,7 +37,6 @@ def view_a_question(questionid):
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
 def add_an_answer(questionid):
-    data = request.get_json()
     if request.method == 'POST':
         answer = str(data.get("answer"))
         if questionid not in stack.questions.keys():
