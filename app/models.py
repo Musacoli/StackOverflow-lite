@@ -33,17 +33,3 @@ class Answers(Questions):
 
     def view_answers(self, qid):
             return self.answers[qid]
-
-"""test = Questions()
-
-test.add_questions("what")
-test.add_questions("who")
-test.add_questions("when")
-test.add_questions("where")
-for qdict in test.questions.values():
-    if "what" in qdict.keys():
-        print ("True")
-        break
-    else:
-        print ("False")
-    print(qdict.keys())"""

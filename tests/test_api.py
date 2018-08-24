@@ -34,6 +34,10 @@ class TestForQuestions(unittest.TestCase):
         self.ans.add_answer(1,'the answer')
         assert isinstance(self.ans.view_answers(1), dict)
 
+    def test_if_qid_out_of_range(self):
+        res = self.quest.view_question(4)
+        assert "Question not found" == res
+
 class TestForEndpoints(unittest.TestCase):
     def setUp(self):
         self.app = app
