@@ -54,7 +54,10 @@ def add_an_answer(questionid):
 @app.route('/questions/<int:questionid>/answers', methods=['GET'])
 def view_answers(questionid):
     if request.method == 'GET':
-        return jsonify(ans.view_answers(questionid))
+        if questionid in stack.questions.keys():
+            return jsonify(ans.view_answers(questionid))
+        else:
+            return make_response(jsonify("Failed to locate question to answer")), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

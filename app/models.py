@@ -33,14 +33,11 @@ class Questions(object):
 class Answers(Questions):
     def add_answer(self, qid, answer):
         atime = str(time.ctime())
-        if qid in self.questions.keys():
-            self.answers[qid] = {answer:atime}
-            return self.answers[qid]
-        else:
-            return 'Failed to find question to answer'
+        self.answers[qid] = {answer:atime}
+        return self.answers[qid]
 
     def view_answers(self, qid):
-        if qid in self.answers.keys():
+        if qid in self.questions.keys():
             return self.answers[qid]
         else:
             return "No answers available to display"
