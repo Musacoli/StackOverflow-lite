@@ -1,8 +1,23 @@
 language: python
 python:
   - "3.5"
-cache: pip
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 install:
   - pip install -r requirements.txt
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install coveralls
 script:
-  - pytest
+  - py.test tests/test_api.py
+  - pytest --cov app
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+after_success:
+  - coveralls
+env:
+  global:
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+    - CODECLIMATE_REPO_TOKEN = CODECLIMATE_REPO_TOKEN
+    - CC_TEST_REPORTER_ID = 105ad89232dd674525b7d85fb93e12df1feb8aff59051162b6cf4b69376010e7

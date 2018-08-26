@@ -1,7 +1,0 @@
-[
-  "tests/test_routes.py::TestForEndpoints::test_for_adding_answers", 
-  "tests/test_routes.py::TestForEndpoints::test_for_adding_questions", 
-  "tests/test_routes.py::TestForEndpoints::test_for_hello_route", 
-  "tests/test_routes.py::TestForEndpoints::test_for_viewing_a_question", 
-  "tests/test_routes.py::TestForEndpoints::test_for_viewing_all_questions"
-]

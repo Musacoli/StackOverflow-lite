@@ -1,21 +1,21 @@
 import time
 
 class Questions(object):
-    
     def __init__(self):
         self.questions = {}
-        self.qid = 0
+        self.qid = 1
         self.answers = {}
 
     def add_questions(self, question):
-        self.qid += 1
         self.ptime = str(time.ctime())
         if self.qid in self.questions.keys():
             self.qid += 1
             self.questions[self.qid] = {question:self.ptime}
             return self.questions[self.qid]
         else:
-            self.questions[self.qid] = {question:self.ptime}
+            self.questions[self.qid] = {"question" : question,
+                                        "time" : self.ptime
+                                        }
             return self.questions[self.qid]
     
     def view_questions(self):
@@ -27,13 +27,13 @@ class Questions(object):
         else:
             return 'Question not found'
 
+class Answers(Questions):
     def add_answer(self, qid, answer):
         atime = str(time.ctime())
-        if qid in self.questions.keys():
-            self.answers[qid] = {answer:atime}
-            return self.answers[qid]
-        else:
-            return 'Failed to find question to comment on'
+        self.answers[qid] = {"answer" : answer,
+                            "time" : atime 
+                            }
+        return self.answers[qid]
 
     def view_answers(self, qid):
-        return self.answers[qid]
+            return self.answers[qid]
