@@ -10,7 +10,9 @@ class Questions(object):
         self.ptime = str(time.ctime())
         if self.qid in self.questions.keys():
             self.qid += 1
-            self.questions[self.qid] = {question:self.ptime}
+            self.questions[self.qid] = {"question" : question,
+                                        "time" : self.ptime
+                                        }
             return self.questions[self.qid]
         else:
             self.questions[self.qid] = {"question" : question,
