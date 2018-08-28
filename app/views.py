@@ -25,7 +25,7 @@ def view_all_questions():
 @app.route('/questions', methods=['POST'])
 def add_question():
     data = request.get_json()
-    question = str(data.get("question"))
+    question = str(data.get("title", "question", "user_id"))
     if request.method == 'POST':
         if question.isspace() or question == "None" or len(question) <=0:
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
