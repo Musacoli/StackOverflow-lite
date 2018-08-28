@@ -55,13 +55,14 @@ def add_an_answer(questionid):
     else:
         abort(405)
 
+@app.errorhandler(404)
+def content_not_found(e):
+    return make_response(jsonify("Failed to locate questionID with requested answer")), 404
+
 @app.route('/questions/<int:questionid>/answers', methods=['GET'])
 def view_answers(questionid):
     if request.method == 'GET':
-        if questionid in stack.answers.keys():
-            return jsonify(ans.view_answers(questionid)), 200
-        else:
-            return make_response(jsonify("Failed to locate questionID with requested answer")), 404
+        return jsonify(ans.view_answers(questionid)), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
