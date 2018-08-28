@@ -1,9 +1,40 @@
 import psycopg2
 
-conn = psycopg2.connect(database="stackOL", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
-print ("Database has been opened")
 
-cur = conn.cursor()
+class DatabaseConnection(object):
+
+    def __init__(self):
+        self.conn = psycopg2.connect(database="stackOL", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        self.conn.autocommit = True
+
+    def create_users_table(self):
+        create_users_table_command = ('''CREATE TABLE users
+        (user_id TEXT PRIMARY KEY NOT NULL,
+        first_name TEXT NOT NULL,
+        surname TEXT NOT NULL,
+        email VARCHAR(20) NOT NULL,
+        password TEXT NOT NULL
+        );''')
+        self.cur.execute(create_users_table_command)
+
+    def create_new_user(self, username, firstname, surname, email, password):
+        create_new_user_command = ("""INSERT INTO users 
+        (user_id, first_name, surname, email, password)
+        VALUES (%s, %s, %s, %s, %s) 
+        """ % (username, firstname, surname, email, password))
+
+    def create_questions_table(self):
+        create_questions_table_command = ('''CREATE TABLE users
+        (user_id TEXT PRIMARY KEY NOT NULL,
+        first_name TEXT NOT NULL,
+        surname TEXT NOT NULL,
+        email VARCHAR(20) NOT NULL,
+        password TEXT NOT NULL
+        ); ''')
+        self.cur.execute(create_questions_table_command)
+
+
 
 cur.execute('''CREATE TABLE users
         (user_id TEXT PRIMARY KEY NOT NULL,
