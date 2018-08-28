@@ -6,6 +6,10 @@ app = Flask(__name__)
 stack = Questions()
 ans = Answers()
 
+@app.errorhandler(400)
+def page_not_found(e):
+    return make_response(jsonify("Invalid Input/Bad Request, please try again!")), 400
+
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
     return jsonify('Welcome to the StackOverflow-lite website')
@@ -23,9 +27,9 @@ def add_question():
     data = request.get_json()
     question = str(data.get("question"))
     if request.method == 'POST':
-        if question.isspace() or question is None or len(question) <=0:
+        if question.isspace() or question == "None" or len(question) <=0:
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
-        elif question.isnumeric():
+        elif question.isnumeric() :
             return make_response(jsonify("Invalid Input, please try again!")), 400
         else:
             return jsonify(stack.add_questions(question)), 201
@@ -54,10 +58,10 @@ def add_an_answer(questionid):
 @app.route('/questions/<int:questionid>/answers', methods=['GET'])
 def view_answers(questionid):
     if request.method == 'GET':
-        if questionid in stack.questions.keys():
+        if questionid in stack.answers.keys():
             return jsonify(ans.view_answers(questionid)), 200
         else:
-            return make_response(jsonify("Failed to locate question to answer")), 404
+            return make_response(jsonify("Failed to locate questionID with requested answer")), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
