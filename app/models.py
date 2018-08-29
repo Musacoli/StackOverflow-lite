@@ -5,15 +5,31 @@ from app.database import DatabaseConnection
 class Users(object):
 
     def __init__(self):
+        self.database = DatabaseConnection()
         self.users = {}
+        users = self.database.extract_all_users()
+        for user in users:
+            self.users[user[0]] = {"firstname": user[1],
+                          "surname": user[2],
+                          "email": user[3],
+                          "password": user[4] }
 
-    def add_user_account(self, username, firstname, surname, email, password):
-        self.username = username
-        self.firstname = firstname
-        self.surname = surname
-        self.email = email
-        self.password = password
-class Questions(object):
+    def add_user_account(self, user_id, firstname, surname, email, password):
+        if user_id not in self.users.keys():
+            self.database.create_new_user(user_id, firstname, surname, email, password)
+            return "Sign Up Successfull"
+        else:
+            return "User_ID already exists!"
+
+    def login_user_account(self, user_id, password):
+        if user_id in self.users.keys():
+            if self.users[user_id]["password"] == password:
+                return "User: %s has logged in successfully!" % (user_id)
+            else:
+                return "Password is incorrect, try again"
+        else:
+            return "Invalid username: Username doesn't exist!"
+class Questions(Users):
 
     def __init__(self):
         self.database = DatabaseConnection()
@@ -61,7 +77,7 @@ class Answers(Questions):
         atime = str(time.ctime())
         if qid in self.questions.keys():
             self.database.create_an_answer(qid, user_id, title, description, atime)
-            return self.answers[qid]
+            return self.answers[len(self.answers.items())]
         else:
             return "Question doesn't exist: Check ID!"
 

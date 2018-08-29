@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, abort, make_response
-from .models import Questions, Answers
+from .models import Users, Questions, Answers
 
 app = Flask(__name__)
 
+user = Users()
 stack = Questions()
 ans = Answers()
 
@@ -13,6 +14,26 @@ def page_not_found(e):
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
     return jsonify('Welcome to the StackOverflow-lite website')
+
+@app.route('/signup', methods=['POST'])
+def create_a_user_account():
+    data = request.get_json()
+    user_id = str(data.get("user_id"))
+    firstname = str(data.get("firstname"))
+    surname = str(data.get("surname"))
+    email = str(data.get("email"))
+    password = str(data.get("password"))
+    if request.method == 'POST':
+        return jsonify(user.add_user_account(user_id, firstname, surname, email, password)), 200
+
+@app.route('/login', methods=['POST'])
+def login_a_user():
+    data = request.get_json()
+    user_id = data.get("user_id")
+    password = data.get("password")
+    if request.method == 'POST':
+        return jsonify(user.login_user_account(user_id, password)), 200
+
 
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
@@ -28,7 +49,6 @@ def add_question():
     user_id = str(data.get("user_id"))
     title = str(data.get("title"))
     description = str(data.get("description"))
-    question = [user_id, title, description]
     if request.method == 'POST':
         """if question.isspace() or question == "None" or len(question) <=0:
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
@@ -51,11 +71,9 @@ def delete_a_question(questionid):
 def add_an_answer(questionid):
     data = request.get_json()
     if request.method == 'POST':
-        qid = str(data.get("qid"))
         user_id = str(data.get("user_id"))
         title = str(data.get("title"))
         description = str(data.get("description"))
-        answer = [qid, user_id, title, description]
         """if questionid not in stack.questions.keys():
             return make_response(jsonify("Question not found: Question ID out of range!")), 404
         elif answer.isdigit():
@@ -63,7 +81,7 @@ def add_an_answer(questionid):
         elif (answer == None) or (len(answer) <= 0) or answer.isspace():
             return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400
         else:"""
-        return jsonify(ans.add_answer(qid, user_id, title, description)), 201
+        return jsonify(ans.add_answer(questionid, user_id, title, description)), 201
     else:
         abort(405)
 
@@ -77,7 +95,7 @@ def view_answers(questionid):
         return jsonify(ans.view_answers(questionid)), 200
 
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['POST'])
-def set_as_preferred_answer(self, questionid, answerid):
+def set_as_preferred_answer(questionid, answerid):
     if request.method == 'POST':
         return jsonify(ans.select_preferred_answer(answerid)), 200
 

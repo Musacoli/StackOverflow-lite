@@ -6,6 +6,7 @@ aid = answer_id
 qid = question_id
 cur = cursor
 conn = connection
+uid = user_id OR username
 """
 class DatabaseConnection(object):
 
@@ -29,6 +30,11 @@ class DatabaseConnection(object):
         self.cur.execute(create_new_user_command, (user_id, firstname, surname, email, password))
         #self.conn.commit()
         #self.conn.close()
+
+    def extract_all_users(self):
+        self.cur.execute("SELECT * FROM users;")
+        uids = self.cur.fetchall()
+        return uids
 
     def create_questions_table(self):
         create_questions_table_command = ('''CREATE TABLE questions
@@ -59,7 +65,7 @@ class DatabaseConnection(object):
 
     def delete_a_question(self, qid):
         delete_a_question_command = ("DELETE FROM questions WHERE question_id = %s;")
-        self.cur.execute(delete_a_question_command, qid)
+        self.cur.execute(delete_a_question_command, [qid])
         #self.conn.commit()
         #self.conn.close()
 
@@ -98,9 +104,9 @@ class DatabaseConnection(object):
         #self.conn.close()
 
     def select_answer_as_preferred_answer(self, aid):
-        select_answer_command = ("""INSERT INTO answers (selected)
-                                 VALUES(1) WHERE answer_id=%s;""")
-        self.cur.execute(select_answer_command, (aid))
+        select_answer_command = ("""UPDATE answers SET selected = True
+                                  WHERE answer_id = %s;""")
+        self.cur.execute(select_answer_command, [aid])
 
 if __name__ == '__main__':
     database_connection = DatabaseConnection()

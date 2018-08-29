@@ -1,6 +1,6 @@
 import unittest
 import pytest
-from app.models import Questions, Answers
+from app.models import Users, Questions, Answers
 from app.views import app
 from flask import jsonify, json
 
@@ -19,7 +19,7 @@ class TestForQuestions(unittest.TestCase):
         assert isinstance(self.quest.view_questions(), dict)
 
     def test_if_a_question_is_viewed(self):
-        assert isinstance(self.quest.view_question(1), dict)
+        assert isinstance(self.quest.view_question(2), dict)
 
     def test_if_an_answer_is_added(self):
         self.quest.add_questions(1, 'what is a boolean', "I got it from a forum")
