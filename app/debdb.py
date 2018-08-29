@@ -1,13 +1,14 @@
-from database import DatabaseConnection
+#from database import DatabaseConnection
 
-database = DatabaseConnection()
+#database = DatabaseConnection()
 #database.create_users_table()
 #database.create_questions_table()
 #database.create_an_answers_table()
 #database.create_new_user('nelo', 'nelson', 'mwiru', 'nmwiru@gmail.com','mukenene')
 #database.create_questions_table()
-database.create_a_question(1, 'what is a boolean', "I got it from a forum", 'Tue 20 August 2018')
-
+#database.create_a_question(1, 'what is a boolean', "I got it from a forum", 'Tue 20 August 2018')
+#database.create_an_answer(2, 'collo', 'explanation of a bolean', 'This is a True/False scenario', 'Wed 29 August 2018')
+#database.add_new_column_for_selected_answer()
 """cur.execute('''CREATE TABLE users
         (user_id TEXT PRIMARY KEY NOT NULL,
         first_name TEXT NOT NULL,
@@ -84,3 +85,9 @@ for row in rows:
     
 print ("operation successful")"""
 
+"""@app.route('/questions/<int:questionid>/answers', methods=['POST'])
+def add_an_answer(questionid):
+elif answer.isdigit():
+            return make_response(jsonify("Invalid Input, please try again!")), 400
+        elif (answer == None) or (len(answer) <= 0) or answer.isspace():
+            return make_response(jsonify("REQUIRED FIELD: Don't leave blank or submit spaces!")), 400"""
