@@ -6,7 +6,6 @@ before_script:
   - cp database.yml.travis database.yml
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
-  - rake db:migrate
   services:
     - postgresql
   addons:
