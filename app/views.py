@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, abort, make_response
 from .models import Users, Questions, Answers
+from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 
@@ -22,9 +23,9 @@ def create_a_user_account():
     firstname = str(data.get("firstname"))
     surname = str(data.get("surname"))
     email = str(data.get("email"))
-    password = str(data.get("password"))
+    password = sha256_crypt.encrypt(str(data.get("password")))
     if request.method == 'POST':
-        return jsonify(user.add_user_account(user_id, firstname, surname, email, password)), 200
+        return jsonify(user.add_user_account(user_id, firstname, surname, email, password)), 201
 
 @app.route('/login', methods=['POST'])
 def login_a_user():
@@ -33,7 +34,6 @@ def login_a_user():
     password = data.get("password")
     if request.method == 'POST':
         return jsonify(user.login_user_account(user_id, password)), 200
-
 
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
@@ -65,7 +65,7 @@ def view_a_question(questionid):
 @app.route('/questions/<int:questionid>', methods=['DELETE'])
 def delete_a_question(questionid):
     if request.method == 'DELETE':
-        return jsonify(stack.delete_question(questionid))
+        return jsonify(stack.delete_question(questionid)), 202
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
 def add_an_answer(questionid):
@@ -97,9 +97,7 @@ def view_answers(questionid):
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['POST'])
 def set_as_preferred_answer(questionid, answerid):
     if request.method == 'POST':
-        return jsonify(ans.select_preferred_answer(answerid)), 200
-
-    pass
+        return jsonify(ans.select_preferred_answer(answerid)), 201
 
 if __name__ == '__main__':
     app.run(debug=True)

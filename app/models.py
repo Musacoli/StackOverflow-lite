@@ -1,5 +1,6 @@
 import time
 from app.database import DatabaseConnection
+from passlib.hash import sha256_crypt
 
 
 class Users(object):
@@ -23,7 +24,7 @@ class Users(object):
 
     def login_user_account(self, user_id, password):
         if user_id in self.users.keys():
-            if self.users[user_id]["password"] == password:
+            if sha256_crypt.verify(password, self.users[user_id]["password"]):
                 return "User: %s has logged in successfully!" % (user_id)
             else:
                 return "Password is incorrect, try again"
@@ -54,7 +55,7 @@ class Questions(Users):
     def add_questions(self, user_id, question_title, description):
         ptime = str(time.ctime())
         self.database.create_a_question(user_id, question_title, description, ptime)
-        return self.questions[len(self.questions.items())]
+        return self.questions[len(self.questions.items()) + 1]
 
     def view_questions(self):
         return self.questions
