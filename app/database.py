@@ -62,6 +62,11 @@ class DatabaseConnection(object):
         qids = self.cur.fetchall()
         return qids
         #self.conn.close()
+    
+    def get_answers_to_question(self, qid):
+        self.cur.execute("SELECT * FROM answers WHERE question_id = %s;", [qid])
+        ans = self.cur.fetchall()
+        return ans
 
     def delete_a_question(self, qid):
         delete_a_question_command = ("DELETE FROM questions WHERE question_id = %s;")
@@ -110,3 +115,4 @@ class DatabaseConnection(object):
 
 if __name__ == '__main__':
     database_connection = DatabaseConnection()
+    database_connection.conn.close()

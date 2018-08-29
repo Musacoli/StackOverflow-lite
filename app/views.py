@@ -17,7 +17,7 @@ def welcome():
     return jsonify('Welcome to the StackOverflow-lite website')
 
 @app.route('/signup', methods=['POST'])
-def create_a_user_account():
+def create_a_user_accout():
     data = request.get_json()
     user_id = str(data.get("user_id"))
     firstname = str(data.get("firstname"))

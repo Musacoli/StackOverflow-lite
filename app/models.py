@@ -1,6 +1,8 @@
 import time
 from app.database import DatabaseConnection
 from passlib.hash import sha256_crypt
+import jwt
+import datetime
 
 
 class Users(object):
@@ -30,6 +32,21 @@ class Users(object):
                 return "Password is incorrect, try again"
         else:
             return "Invalid username: Username doesn't exist!"
+
+    def encode_auth_token(self, user_id):
+        try:
+            payload = {
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=10),
+                'iat': datetime.datetime.utcnow(),
+                'sub': user_id
+            }
+            return jwt.encode(
+                payload,
+                app.config.get('SECRET_KEY'),
+                algorithm= 'HS256'
+            )
+        except Exception as e:
+            return e
 class Questions(Users):
 
     def __init__(self):
@@ -55,14 +72,24 @@ class Questions(Users):
     def add_questions(self, user_id, question_title, description):
         ptime = str(time.ctime())
         self.database.create_a_question(user_id, question_title, description, ptime)
-        return self.questions[len(self.questions.items()) + 1]
+        return self.questions[len(self.questions.items())+1]
 
     def view_questions(self):
         return self.questions
 
     def view_question(self, qid):
+        answers_to_question = {}
         if qid in self.questions.keys():
-            return self.questions[qid]
+            ans = self.database.get_answers_to_question(qid)
+            for an in ans:
+                answers_to_question[an[0]] = {"question_id": an[1],
+                                            "user_id": an[2],
+                                            "title": an[3],
+                                            "description": an[4],
+                                            "post_time": an[5]
+                                            }
+            return self.questions[qid], answers_to_question
+
         else:
             return "Question doesn't exist: Check ID!"
 
