@@ -1,13 +1,33 @@
 from flask import Flask, request, jsonify, abort, make_response
 from app.models import Users, Questions, Answers
 from passlib.hash import sha256_crypt
-
+import jwt
+import datetime
+from functools import wraps
 
 app = Flask(__name__)
+
+app.config["SECRET_KEY"] = 'thisisstackoverflowlite'
 
 user = Users()
 stack = Questions()
 ans = Answers()
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.args.get('token')
+
+        if not token:
+            return make_response(jsonify({'message': 'Token is missing'})), 401
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+        except:
+            return make_response(jsonify({'message': 'Token is invalid'})), 403
+
+        return f(*args, **kwargs)
+    return decorated
 
 @app.errorhandler(400)
 def page_not_found(e):
@@ -42,7 +62,8 @@ def login_a_user():
     if request.method == 'POST':
         if user_id in user.users.keys():
             if sha256_crypt.verify(password, user.users[user_id]["password"]):
-                return make_response(jsonify("User: %s has logged in successfully!" % (user_id))), 200
+                token = jwt.encode({'user_id': user_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)})
+                return make_response(jsonify({'token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify("Password is incorrect, try again")), 400
         else:
@@ -57,6 +78,7 @@ def view_all_questions():
             return jsonify(stack.view_questions()), 200
 
 @app.route('/questions', methods=['POST'])
+@token_required
 def add_question():
     data = request.get_json()
     user_id = str(data.get("user_id"))
@@ -81,6 +103,7 @@ def view_a_question(questionid):
             return make_response(jsonify("Question doesn't exist: Check questionID!")), 400
 
 @app.route('/questions/<int:questionid>', methods=['DELETE'])
+@token_required
 def delete_a_question(questionid):
     if request.method == 'DELETE':
         if questionid in stack.questions.keys():
@@ -89,6 +112,7 @@ def delete_a_question(questionid):
             return make_response(jsonify("Unable to delete question which doesn't exist: Check questionID!")), 400
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
+@token_required
 def add_an_answer(questionid):
     data = request.get_json()
     error = "Unable to add answer due to missing/duplicate required fields. Try again."
@@ -113,6 +137,7 @@ def content_not_found(e):
     return make_response(jsonify("Failed to locate questionID with requested answer")), 404
 
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['POST'])
+@token_required
 def set_as_preferred_answer(questionid, answerid):
     if request.method == 'POST':
         if questionid in stack.questions.keys():
