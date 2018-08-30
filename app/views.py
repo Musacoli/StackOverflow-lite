@@ -18,6 +18,9 @@ def token_required(f):
     def decorated(*args, **kwargs):
         token = request.args.get('token')
 
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+
         if not token:
             return make_response(jsonify({'message': 'Token is missing'})), 401
 
@@ -31,7 +34,7 @@ def token_required(f):
 
 @app.errorhandler(400)
 def page_not_found(e):
-    return make_response(jsonify("Invalid Input/Bad Request, please try again!")), 400
+    return make_response(jsonify({"message":"Invalid Input/Bad Request, please try again!"})), 400
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
