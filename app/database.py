@@ -113,7 +113,8 @@ class DatabaseConnection(object):
         user_id TEXT NOT NULL,
         answer_title TEXT NOT NULL UNIQUE,
         description TEXT NOT NULL,
-        post_time TIMESTAMP
+        post_time TIMESTAMP,
+        preferred BOOLEAN
         ); ''')
         self.cur.execute(create_an_answers_table_command)
         #self.conn.commit()
@@ -161,7 +162,7 @@ class DatabaseConnection(object):
         #self.conn.close()
 
     def select_answer_as_preferred_answer(self, aid):
-        select_answer_command = ("""UPDATE answers SET selected = True
+        select_answer_command = ("""UPDATE answers SET preferred = True
                                   WHERE answer_id = %s;""")
         self.cur.execute(select_answer_command, [aid])
 

@@ -74,6 +74,18 @@ class TestForEndpoints(unittest.TestCase):
         res = self.client().post('/questions', data=json.dumps(self.quest.add_questions('musa', 'what icvbfs a boolean', "I got it from a forum")), content_type="application/json")
         self.assertEqual(res.status_code, 201)
 
+    def test_for_adding_a_blank_question(self):
+        res = self.client().post('/questions', data=json.dumps(self.quest.add_questions('', '', "")), content_type="application/json")
+        self.assertEqual(res.status_code, 400)
+
+    def test_for_adding_already_existing_question(self):
+        res = self.client().post('/questions', data=json.dumps(self.quest.add_questions('musa', 'what icvbfs a boolean', "I got it from a forum")), content_type="application/json")
+        self.assertEqual(res.status_code, 400)
+
+    def test_for_adding_a_null_question(self):
+        res = self.client().post('/questions', data=json.dumps(None), content_type="application/json")
+        self.assertEqual(res.status_code, 400)
+
     def test_for_viewing_all_questions(self):
         res = self.client().get('/questions')
         self.assertEqual(res.status_code, 200)
@@ -89,6 +101,14 @@ class TestForEndpoints(unittest.TestCase):
     def test_for_viewing_a_question(self):
         res = self.client().get('/questions/1')
         self.assertEqual(res.status_code, 200)
+
+    def test_for_deleting_a_question(self):
+        res = self.client().delete('/questions/22')
+        self.assertEqual(res.status_code, 202)
+
+    def test_for_selecting_preferred_answer(self):
+        res = self.client().put('/questions/1/answers/1')
+        self.assertEqual(res.status_code, 201)
 
     def test_for_adding_answers(self):
         res = self.client().post('/questions/1/answers', data=json.dumps(self.ans.add_answer(1, 'collo', 'explangrgsgzgation of a bolean', 'This is a True/False scenario')), content_type="application/json")
