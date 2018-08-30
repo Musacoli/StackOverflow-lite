@@ -2,15 +2,11 @@ language: python
 python:
   - "3.5"
 before_script:
-  - psql -c 'create database stackOLdb;' -U postgres
+  - psql -c 'create database travis_ci_test;' -U postgres
   - cp database.yml.travis database.yml
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
-  services:
-    - postgresql
-  addons:
-    postgresql: "9.5"
-  install:
+install:
   - pip install -r requirements.txt
   - pip install pytest
   - pip install pytest-cov
@@ -27,4 +23,3 @@ env:
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
     - CODECLIMATE_REPO_TOKEN = CODECLIMATE_REPO_TOKEN
     - CC_TEST_REPORTER_ID = 105ad89232dd674525b7d85fb93e12df1feb8aff59051162b6cf4b69376010e7
-    - PGPORT = 5432

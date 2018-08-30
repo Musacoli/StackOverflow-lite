@@ -136,10 +136,10 @@ def add_an_answer(questionid):
 def content_not_found(e):
     return make_response(jsonify("Failed to locate questionID with requested answer")), 404
 
-@app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['POST'])
+@app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['PUT'])
 @token_required
 def set_as_preferred_answer(questionid, answerid):
-    if request.method == 'POST':
+    if request.method == 'PUT':
         if questionid in stack.questions.keys():
             if answerid in ans.answers.keys():
                 return jsonify(ans.select_preferred_answer(answerid)), 201

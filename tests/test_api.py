@@ -9,6 +9,10 @@ class TestForQuestions(unittest.TestCase):
         self.quest = Questions()
         self.ans = Answers()
 
+    def test_if_user_is_added(self):
+        user = Users.add_user_account( 'moli', 'mol', 'inda', 'molinda@gmail.com', 'molindapassword')
+        assert user == "Sign Up successful"
+
     def test_if_question_is_added(self):
         assert isinstance(self.quest.add_questions('musa', 'what is a hexadecimal', "I got it from a forum"),  dict)
 
