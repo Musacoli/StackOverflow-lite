@@ -6,7 +6,7 @@ aid = answer_id
 qid = question_id
 cur = cursor
 conn = connection
-uid = user_id OR username
+uid = username
 """
 class DatabaseConnection(object):
 
@@ -17,17 +17,18 @@ class DatabaseConnection(object):
 
     def create_users_table(self):
         create_users_table_command = ('''CREATE TABLE users
-        (user_id TEXT PRIMARY KEY NOT NULL,
+        (username TEXT NOT NULL,
         first_name TEXT NOT NULL,
         surname TEXT NOT NULL,
         email VARCHAR(20) NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        PRIMARY KEY (username)
         );''')
         self.cur.execute(create_users_table_command)
 
-    def create_new_user(self, user_id, firstname, surname, email, password):
-        create_new_user_command = ("INSERT INTO users(user_id, first_name, surname, email, password) VALUES(%s, %s, %s, %s, %s)")
-        self.cur.execute(create_new_user_command, (user_id, firstname, surname, email, password))
+    def create_new_user(self, username, firstname, surname, email, password):
+        create_new_user_command = ("INSERT INTO users(username, first_name, surname, email, password) VALUES(%s, %s, %s, %s, %s)")
+        self.cur.execute(create_new_user_command, (username, firstname, surname, email, password))
         #self.conn.commit()
         #self.conn.close()
 
@@ -44,22 +45,24 @@ class DatabaseConnection(object):
 
     def create_questions_table(self):
         create_questions_table_command = ('''CREATE TABLE questions
-        (question_id SERIAL PRIMARY KEY,
-        user_id TEXT NOT NULL,
+        (question_id SERIAL,
+        username TEXT NOT NULL,
         question_title TEXT NOT NULL UNIQUE,
         description TEXT NOT NULL,
-        post_time TIMESTAMP
+        post_time TIMESTAMP,
+        PRIMARY KEY (question_id),
+        FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
         ); ''')
         self.cur.execute(create_questions_table_command)
         #self.conn.commit()
         #self.conn.close()
 
-    def create_a_question(self, user_id, title, description, post_time):
+    def create_a_question(self, username, title, description, post_time):
         create_a_question_command = ('''INSERT INTO questions 
-        (user_id, question_title, description, post_time)
+        (username, question_title, description, post_time)
         VALUES (%s, %s, %s, %s) 
         ''' )
-        self.cur.execute(create_a_question_command, (user_id, title, description, post_time))
+        self.cur.execute(create_a_question_command, (username, title, description, post_time))
         #self.conn.commit()
         #self.conn.close()
 
@@ -69,7 +72,7 @@ class DatabaseConnection(object):
         questions_base = {}
         for question in qids:
             questions_base[question[0]] = {"question_title": question[2],
-                                    "user_id": question[1],
+                                    "username": question[1],
                                     "description": question[3],
                                     "post_time": question[4]
                                     }
@@ -80,11 +83,20 @@ class DatabaseConnection(object):
         self.cur.execute("SELECT * FROM questions ORDER BY question_id DESC;")
         last_question_entry = self.cur.fetchmany(size=1)
         for last_question in last_question_entry:
-            return {last_question[0] : {"user_id": last_question[1],
+            return {last_question[0] : {"username": last_question[1],
                                 "question_title": last_question[2],
                                 "description": last_question[3],
                                 "post_time": last_question[4]
                             }
+                    }
+    def get_question(self, question_id):
+        self.cur.execute("SELECT * FROM questions WHERE question_id = {}").format(question_id)
+        question = self.cur.fetchall()
+        for quest in question:
+            return {quest[0] : {"username": quest[1],
+                                "question_title": quest[2],
+                                "description": quest[3],
+                                "post_time": quest[4]}
                     }
 
     def get_answers_to_question(self, qid):
@@ -93,7 +105,7 @@ class DatabaseConnection(object):
         answers_to_question = {}
         for an in ans:
             answers_to_question[an[0]] = {"question_id": an[1],
-                                            "user_id": an[2],
+                                            "username": an[2],
                                             "title": an[3],
                                             "description": an[4],
                                             "post_time": an[5]
@@ -108,24 +120,27 @@ class DatabaseConnection(object):
 
     def create_an_answers_table(self):
         create_an_answers_table_command = ('''CREATE TABLE answers
-        (answer_id SERIAL PRIMARY KEY,
+        (answer_id SERIAL,
         question_id INT NOT NULL,
-        user_id TEXT NOT NULL,
+        username TEXT NOT NULL,
         answer_title TEXT NOT NULL UNIQUE,
         description TEXT NOT NULL,
         post_time TIMESTAMP,
-        preferred BOOLEAN
+        preferred BOOLEAN,
+        PRIMARY KEY (answer_id),
+        FOREIGN KEY (question_id) REFERENCES questions (question_id) ON DELETE CASCADE,
+        FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
         ); ''')
         self.cur.execute(create_an_answers_table_command)
         #self.conn.commit()
         #self.conn.close()
 
-    def create_an_answer(self, question_id, user_id, title, description, post_time):
+    def create_an_answer(self, question_id, username, title, description, post_time):
         create_an_answer_command = ('''INSERT INTO answers 
-        (question_id, user_id, answer_title, description, post_time)
+        (question_id, username, answer_title, description, post_time)
         VALUES (%s, %s, %s, %s, %s) 
         ''' )
-        self.cur.execute(create_an_answer_command, (question_id, user_id, title, description, post_time))
+        self.cur.execute(create_an_answer_command, (question_id, username, title, description, post_time))
         #self.conn.commit()
         #self.conn.close()
 
@@ -135,7 +150,7 @@ class DatabaseConnection(object):
         answers_base = {}
         for answer in aids:
             answers_base[answer[0]] = {"question_id": answer[1],
-                                        "user_id": answer[2],
+                                        "username": answer[2],
                                         "title": answer[3],
                                         "description": answer[4],
                                         "post_time": answer[5]                                        
@@ -148,15 +163,15 @@ class DatabaseConnection(object):
         last_answer_entry = self.cur.fetchmany(size=1)
         for last in last_answer_entry:
             return {last[0] : {"question_id": last[1],
-                                "user_id": last[2],
+                                "username": last[2],
                                 "answer_title": last[3],
                                 "description": last[4],
                                 "post_time": last[5]
                             }
                     }
 
-    def add_new_column_for_selected_answer(self):
-        add_column_command = ("ALTER TABLE answers ADD selected BOOLEAN;")
+    def add_new_column_for_preferred_answer(self):
+        add_column_command = ("ALTER TABLE answers ADD preferred BOOLEAN;")
         self.cur.execute(add_column_command)
         #self.conn.commit()
         #self.conn.close()

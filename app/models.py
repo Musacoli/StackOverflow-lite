@@ -11,9 +11,9 @@ class Users(object):
         self.database = DatabaseConnection()
         self.users = self.database.extract_all_users()
 
-    def add_user_account(self, user_id, firstname, surname, email, password):
-        self.database.create_new_user(user_id, firstname, surname, email, password)
-        return "Sign Up Successfull"
+    def add_user_account(self, username, firstname, surname, email, password):
+        self.database.create_new_user(username, firstname, surname, email, password)
+        return {"message":"Sign Up Successfull"}
 
 class Questions(Users):
 
@@ -22,9 +22,9 @@ class Questions(Users):
         self.questions = self.database.get_all_questions()
         self.answers = self.database.extract_all_answers()
 
-    def add_questions(self, user_id, question_title, description):
+    def add_questions(self, username, question_title, description):
         ptime = str(time.ctime())
-        self.database.create_a_question(user_id, question_title, description, ptime)
+        self.database.create_a_question(username, question_title, description, ptime)
         return self.database.get_latest_question_entry()
 
     def view_questions(self):
@@ -37,15 +37,14 @@ class Questions(Users):
 
     def delete_question(self, qid):
         self.database.delete_a_question(qid)
-        return "Question has been deleted."
+        return {"message":"Question has been deleted."}
 
 class Answers(Questions):
-    def add_answer(self, qid, user_id, title, description):
+    def add_answer(self, qid, username, title, description):
         atime = str(time.ctime())
-        self.database.create_an_answer(qid, user_id, title, description, atime)
+        self.database.create_an_answer(qid, username, title, description, atime)
         return self.database.get_latest_answer_entry()
 
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
-        return "Operation successful"
-            
+        return  {"message":"Operation successful"}
