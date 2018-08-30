@@ -62,8 +62,8 @@ def login_a_user():
     if request.method == 'POST':
         if user_id in user.users.keys():
             if sha256_crypt.verify(password, user.users[user_id]["password"]):
-                token = jwt.encode({'user_id': user_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)})
-                return make_response(jsonify({'token': token.decode('UTF-8')})), 200
+                token = jwt.encode({'user_id': user_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                return make_response(jsonify({'Logged in successfully as:':'User','token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify("Password is incorrect, try again")), 400
         else:
