@@ -140,7 +140,7 @@ def add_an_answer(current_user, questionid):
             username = current_user
             title = str(data.get("title"))
             description = str(data.get("description"))
-            if questionid not in stack.questions.keys():
+            if questionid not in database.get_all_questions().keys():
                 return make_response(jsonify({"ERROR!":"Question not found: Question ID out of range!"})), 404
             elif (data == None) or (len(data) <= 0) or not data:
                 return make_response(jsonify({"ERROR!":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
