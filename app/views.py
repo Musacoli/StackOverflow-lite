@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, abort, make_response
 from app.models import Users, Questions, Answers
+from app.database import DatabaseConnection
 from passlib.hash import sha256_crypt
 import jwt
 import datetime
@@ -12,6 +13,7 @@ app.config["SECRET_KEY"] = 'thisisstackoverflowlite'
 user = Users()
 stack = Questions()
 ans = Answers()
+database = DatabaseConnection()
 
 def token_required(f):
     @wraps(f)
@@ -26,10 +28,11 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = data['username']
         except:
             return make_response(jsonify({'message': 'Token is invalid'})), 403
 
-        return f(*args, **kwargs)
+        return f(current_user, *args, **kwargs)
     return decorated
 
 @app.errorhandler(400)
@@ -57,20 +60,30 @@ def create_a_user_account():
         except:
             return make_response(jsonify({"ERROR!":"Username/email already exists! Try again"}))
 
-@app.route('/login', methods=['POST'])
+@app.route('/auth/login', methods=['POST'])
 def login_a_user():
-    data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
+    auth = request.authorization
+    #data = request.get_json()
+    #username = data.get("username")
+    #password = data.get("password")
     if request.method == 'POST':
-        if username in user.users.keys():
-            if sha256_crypt.verify(password, user.users[username]["password"]):
-                token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        if auth.username in database.extract_all_users().keys():
+            if sha256_crypt.verify(auth.password, database.extract_all_users()[auth.username]["password"]):
+                token = jwt.encode({'username': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
                 return make_response(jsonify({'Logged in successfully as:':'User','token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify({"ERROR!":"Password is incorrect, try again"})), 400
         else:
             return make_response(jsonify({"ERROR!":"Invalid username: Username doesn't exist!"})), 400
+
+@app.route('/auth/user/questions', methods=['GET'])
+@token_required
+def view_all_questions_user_asked(current_user):
+    if request.method == 'GET':
+        if len(database.get_all_users_questions(current_user).keys) == 0:
+            return make_response(jsonify({"Message": "No available questions by current user."})), 404
+        else:
+            return jsonify(database.get_all_users_questions(current_user)), 200
 
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
@@ -82,9 +95,9 @@ def view_all_questions():
 
 @app.route('/questions', methods=['POST'])
 @token_required
-def add_question():
+def add_question(current_user):
     data = request.get_json()
-    username = str(data.get("username"))
+    username = current_user
     title = str(data.get("title"))
     description = str(data.get("description"))
     error = "Unable to add question due to missing/duplicate required fields. Try again."
@@ -100,28 +113,31 @@ def add_question():
 @app.route('/questions/<int:questionid>', methods=['GET'])
 def view_a_question(questionid):
     if request.method == 'GET':
-       # try:
-        return jsonify(stack.view_question(questionid)), 200
-        #except:
-            #return make_response(jsonify({"ERROR!":"Question doesn't exist: Check questionID!"})), 400
+        try:
+            return jsonify(stack.view_question(questionid)), 200
+        except:
+            return make_response(jsonify({"ERROR!":"Question doesn't exist: Check questionID!"})), 400
 
 @app.route('/questions/<int:questionid>', methods=['DELETE'])
 @token_required
-def delete_a_question(questionid):
+def delete_a_question(questionid, current_user):
     if request.method == 'DELETE':
-        if questionid in stack.questions.keys():
-            return jsonify(stack.delete_question(questionid)), 202
+        if questionid in database.get_all_questions().keys():
+            if database.get_all_questions()[questionid]["username"] == current_user:
+                return jsonify(stack.delete_question(questionid)), 202
+            else:
+                return make_response(jsonify({"Error":"Current user not authorized to delete this question.!"})), 403
         else:
             return make_response(jsonify({"ERROR!":"Unable to delete question which doesn't exist: Check questionID!"})), 400
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
 @token_required
-def add_an_answer(questionid):
+def add_an_answer(questionid, current_user):
     data = request.get_json()
     error = "Unable to add answer due to missing/duplicate required fields. Try again."
     if request.method == 'POST':
         try:
-            username = str(data.get("username"))
+            username = current_user
             title = str(data.get("title"))
             description = str(data.get("description"))
             if questionid not in stack.questions.keys():
@@ -141,11 +157,14 @@ def content_not_found(e):
 
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['PUT'])
 @token_required
-def set_as_preferred_answer(questionid, answerid):
+def set_as_preferred_answer(questionid, answerid, current_user):
     if request.method == 'PUT':
-        if questionid in stack.questions.keys():
-            if answerid in ans.answers.keys():
-                return jsonify(ans.select_preferred_answer(answerid)), 201
+        if questionid in database.get_all_questions().keys():
+            if answerid in database.extract_all_answers().keys():
+                if database.extract_all_answers()[answerid]["username"] == current_user:
+                    return jsonify(ans.select_preferred_answer(answerid)), 201
+                else:
+                    return make_response(jsonify({"Error!":"Unable to perform operation, lack of access."})), 403
             else:
                 return make_response(jsonify({"ERROR!":"Unable to locate answer: Check answerID"})), 400
         else:

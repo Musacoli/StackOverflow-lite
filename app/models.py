@@ -33,7 +33,7 @@ class Questions(Users):
     def view_question(self, qid):
         answers_to_question = self.database.get_answers_to_question(qid)
         text = "ANSWERS TO QUESTION ABOVE"
-        return self.questions[qid], text, answers_to_question
+        return self.database.get_all_questions()[qid], text, answers_to_question
 
     def delete_question(self, qid):
         self.database.delete_a_question(qid)
@@ -48,3 +48,5 @@ class Answers(Questions):
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
         return  {"message":"Operation successful"}
+
+test = Users()
