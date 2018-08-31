@@ -15,7 +15,7 @@ class TestForModels(unittest.TestCase):
         assert user == "Sign Up Successful"
 
     def test_if_question_is_added(self):
-        assert isinstance(self.quest.add_questions('musa', 'what is a hexadecimajknkl', "I got it from a forum"),  dict)
+        assert isinstance(self.quest.add_questions('molin', 'what is a hexadecimajknkl', "I got it from a forum"),  dict)
 
     def test_for_duplicate_questionids(self):
         assert  self.quest.questions[1] != self.quest.questions[5]
@@ -27,8 +27,8 @@ class TestForModels(unittest.TestCase):
         assert isinstance(self.quest.view_question(1), tuple)
 
     def test_if_a_question_can_be_deleted(self):
-        self.quest.delete_question(24)
-        assert isinstance(self.quest.view_question(24), KeyError)
+        self.quest.delete_question(8)
+        assert isinstance(self.quest.view_question(8), KeyError)
 
     def test_if_an_answer_is_added(self):
         assert isinstance(self.ans.add_answer(1, 'collo', 'explanatbkjkjion of a tuple', 'This is a True/False scenario'), dict)
@@ -55,19 +55,19 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
 
     def test_if_user_account_creation_accepts_empty_fields(self):
-        res = self.client().post('/signup', data=json.dumps(self.user.add_user_account('mako', 'mark', 'munanura', 'markmun@gmail.com', 'password')), content_type="application/json")
+        res = self.client().post('/signup', data=json.dumps(self.user.add_user_account('', '', '', '', '')), content_type="application/json")
         self.assertEqual(res.status_code, 400)
 
     def test_if_user_is_able_to_login(self):
-        res = self.client().post('/signup', data=json.dumps(('mako', 'password')), content_type="application/json")
+        res = self.client().post('/auth/login', data=json.dumps(('mako', 'password')), content_type="application/json")
         self.assertEqual(res.status_code, 200)
 
     def test_if_user_with_invalid_username_can_login(self):
-        res = self.client().post('/signup', data=json.dumps(('makchsj', 'password')), content_type="application/json")
+        res = self.client().post('/auth/login', data=json.dumps(('makchsj', 'password')), content_type="application/json")
         self.assertEqual(res.status_code, 400)
 
     def test_if_user_with_invalid_password_can_login(self):
-        res = self.client().post('/signup', data=json.dumps(('mako', 'passwordaer')), content_type="application/json")
+        res = self.client().post('/auth/login', data=json.dumps(('mako', 'passwordaer')), content_type="application/json")
         self.assertEqual(res.status_code, 400)
 
     def test_for_adding_questions(self):
