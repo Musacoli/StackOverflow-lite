@@ -135,11 +135,10 @@ class DatabaseConnection(object):
         self.conn.close()
         questions = {}
         for quest in user_questions:
-            questions[quest[0]] = {"question_id": quest[1],
-                                    "username": quest[2],
-                                    "title": quest[3],
-                                    "description": quest[4],
-                                    "post_time": quest[5]
+            questions[quest[0]] = {"username": quest[1],
+                                    "title": quest[2],
+                                    "description": quest[3],
+                                    "post_time": quest[4]
                                 }
         return questions
 
@@ -259,5 +258,5 @@ if __name__ == '__main__':
 
 test = DatabaseConnection()
 
-print (test.get_all_questions())
+print (test.get_all_users_questions('test2'))
 

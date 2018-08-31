@@ -80,7 +80,7 @@ def login_a_user():
 @token_required
 def view_all_questions_user_asked(current_user):
     if request.method == 'GET':
-        if len(database.get_all_users_questions(current_user).keys) == 0:
+        if len(database.get_all_users_questions(current_user).keys()) == 0:
             return make_response(jsonify({"Message": "No available questions by current user."})), 404
         else:
             return jsonify(database.get_all_users_questions(current_user)), 200
@@ -120,7 +120,7 @@ def view_a_question(questionid):
 
 @app.route('/questions/<int:questionid>', methods=['DELETE'])
 @token_required
-def delete_a_question(questionid, current_user):
+def delete_a_question(current_user, questionid):
     if request.method == 'DELETE':
         if questionid in database.get_all_questions().keys():
             if database.get_all_questions()[questionid]["username"] == current_user:
@@ -132,7 +132,7 @@ def delete_a_question(questionid, current_user):
         
 @app.route('/questions/<int:questionid>/answers', methods=['POST'])
 @token_required
-def add_an_answer(questionid, current_user):
+def add_an_answer(current_user, questionid):
     data = request.get_json()
     error = "Unable to add answer due to missing/duplicate required fields. Try again."
     if request.method == 'POST':
@@ -157,7 +157,7 @@ def content_not_found(e):
 
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['PUT'])
 @token_required
-def set_as_preferred_answer(questionid, answerid, current_user):
+def set_as_preferred_answer(current_user, questionid, answerid):
     if request.method == 'PUT':
         if questionid in database.get_all_questions().keys():
             if answerid in database.extract_all_answers().keys():
