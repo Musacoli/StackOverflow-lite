@@ -161,7 +161,7 @@ def set_as_preferred_answer(current_user, questionid, answerid):
     if request.method == 'PUT':
         if questionid in database.get_all_questions().keys():
             if answerid in database.extract_all_answers().keys():
-                if database.extract_all_answers()[answerid]["username"] == current_user:
+                if database.get_all_questions()[questionid]["username"] == current_user:
                     return jsonify(ans.select_preferred_answer(answerid)), 201
                 else:
                     return make_response(jsonify({"Error!":"Unable to perform operation, lack of access."})), 403

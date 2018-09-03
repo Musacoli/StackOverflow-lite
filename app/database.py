@@ -276,5 +276,11 @@ class DatabaseConnection(object):
         self.cur.close()
         self.conn.close()
 
+def add_comment_to_answer(self):
+    self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+    self.cur = self.conn.cursor()
+    add_comment_command= ()
+    
+
 if __name__ == '__main__':
     database_connection = DatabaseConnection()
