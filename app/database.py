@@ -239,14 +239,11 @@ class DatabaseConnection(object):
                             }
                     }
 
-    def add_new_column_for_preferred_answer(self):
+    def update_an_existing_answer(self, new_answer):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        add_column_command = ("ALTER TABLE answers ADD preferred BOOLEAN;")
-        self.cur.execute(add_column_command)
-        #self.conn.commit()
-        self.cur.close()
-        self.conn.close()
+        update_answer_command = ('UPDATE answers SET description = %s;')
+        self.cur.execute(update_answer_command, (new_answer))
 
     def select_answer_as_preferred_answer(self, aid):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
@@ -280,7 +277,7 @@ def add_comment_to_answer(self, username, answer_id, comment, post_time):
     self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
     self.cur = self.conn.cursor()
     add_comment_command= ('INSERT INTO comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
-    sel.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
+    self.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
     
 create = DatabaseConnection()
 create.create_users_table()

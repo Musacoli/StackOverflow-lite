@@ -88,10 +88,10 @@ def view_all_questions_user_asked(current_user):
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
     if request.method == 'GET':
-        if len(stack.view_questions().keys()) <= 0:
+        if len(database.get_all_questions().keys()) <= 0:
             return make_response(jsonify({"ERROR!":"No available questions to display"})), 404
         else:
-            return jsonify(stack.view_questions()), 200
+            return jsonify(database.get_all_questions()), 200
 
 @app.route('/questions', methods=['POST'])
 @token_required

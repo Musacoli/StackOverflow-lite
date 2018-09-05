@@ -18,7 +18,6 @@ class Users(object):
 class Questions(Users):
 
     def __init__(self):
-        self.database = DatabaseConnection()
         self.questions = self.database.get_all_questions()
         self.answers = self.database.extract_all_answers()
 
@@ -26,9 +25,6 @@ class Questions(Users):
         ptime = str(time.ctime())
         self.database.create_a_question(username, question_title, description, ptime)
         return self.database.get_latest_question_entry()
-
-    def view_questions(self):
-        return self.database.get_all_questions()
 
     def view_question(self, qid):
         answers_to_question = self.database.get_answers_to_question(qid)
@@ -45,8 +41,12 @@ class Answers(Questions):
         self.database.create_an_answer(qid, username, title, description, atime)
         return self.database.get_latest_answer_entry()
 
+    
+
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
         return  {"message":"Operation successful"}
 
-test = Users()
+    def add_comment_to_answer(self, username, answer_id, comment):
+        post_time = str(time.ctime())
+        self.database.add_comment_to_answer(username, answer_id, comment, post_time)
