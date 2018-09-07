@@ -6,14 +6,8 @@ aid = answer_id
 qid = question_id
 cur = cursor
 conn = connection
-uid = username
-"""
+uid = username       """
 class DatabaseConnection(object):
-
-    #def __init__(self):
-        #self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
-        #self.cur = self.conn.cursor()
-        #self.conn.autocommit = False
 
     def create_users_table(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
@@ -76,10 +70,7 @@ class DatabaseConnection(object):
     def create_a_question(self, username, title, description, post_time):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        create_a_question_command = ('''INSERT INTO questions 
-        (username, question_title, description, post_time)
-        VALUES (%s, %s, %s, %s) 
-        ''' )
+        create_a_question_command = (' INSERT INTO questions (username, question_title, description, post_time) VALUES (%s, %s, %s, %s) ' )
         self.cur.execute(create_a_question_command, (username, title, description, post_time))
         self.conn.commit()
         self.cur.close()
@@ -196,10 +187,7 @@ class DatabaseConnection(object):
     def create_an_answer(self, question_id, username, title, description, post_time):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        create_an_answer_command = ('''INSERT INTO answers 
-        (question_id, username, answer_title, description, post_time)
-        VALUES (%s, %s, %s, %s, %s) 
-        ''' )
+        create_an_answer_command = (' INSERT INTO answers (question_id, username, answer_title, description, post_time) VALUES (%s, %s, %s, %s, %s) ')
         self.cur.execute(create_an_answer_command, (question_id, username, title, description, post_time))
         self.conn.commit()
         self.cur.close()

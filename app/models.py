@@ -41,7 +41,8 @@ class Answers(Questions):
         self.database.create_an_answer(qid, username, title, description, atime)
         return self.database.get_latest_answer_entry()
 
-    
+    def update_an_answer(self, new_answer):
+        self.database.update_an_existing_answer
 
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
