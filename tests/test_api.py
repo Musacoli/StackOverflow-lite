@@ -2,6 +2,7 @@ import unittest
 import pytest
 from app.models import Users, Questions, Answers
 from app.views import app
+from app.database import DatabaseConnection
 from flask import jsonify, json
 
 class TestForModels(unittest.TestCase):
@@ -9,6 +10,7 @@ class TestForModels(unittest.TestCase):
         self.quest = Questions()
         self.ans = Answers()
         self.user = Users()
+        self.database = DatabaseConnection()
 
     def test_if_user_is_added(self):
         user = self.user.add_user_account( 'moli', 'mol', 'inda', 'molijknda@gmail.com', 'molindapassword')
@@ -21,7 +23,7 @@ class TestForModels(unittest.TestCase):
         assert  self.quest.questions[1] != self.quest.questions[5]
 
     def test_if_questions_can_be_viewed(self):
-        assert isinstance(self.quest.view_questions(), dict)
+        assert isinstance(self.database.get_all_questions(), dict)
 
     def test_if_a_question_is_viewed(self):
         assert isinstance(self.quest.view_question(1), tuple)

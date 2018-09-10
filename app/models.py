@@ -18,13 +18,14 @@ class Users(object):
 class Questions(Users):
 
     def __init__(self):
+        self.database = DatabaseConnection()
         self.questions = self.database.get_all_questions()
         self.answers = self.database.extract_all_answers()
 
     def add_questions(self, username, question_title, description):
         ptime = str(time.ctime())
         self.database.create_a_question(username, question_title, description, ptime)
-        return self.database.get_latest_question_entry()
+        return self.database.get_all_questions()[len(self.database.get_all_questions().keys())]
 
     def view_question(self, qid):
         answers_to_question = self.database.get_answers_to_question(qid)
@@ -39,10 +40,11 @@ class Answers(Questions):
     def add_answer(self, qid, username, title, description):
         atime = str(time.ctime())
         self.database.create_an_answer(qid, username, title, description, atime)
-        return self.database.get_latest_answer_entry()
+        return self.database.extract_all_answers()[len(self.database.extract_all_answers().keys())]
 
-    def update_an_answer(self, new_answer):
-        self.database.update_an_existing_answer
+    def update_an_answer(self, answer_id, new_answer):
+        self.database.update_an_existing_answer(answer_id, new_answer)
+        return self.answers[answer_id]
 
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
@@ -51,3 +53,4 @@ class Answers(Questions):
     def add_comment_to_answer(self, username, answer_id, comment):
         post_time = str(time.ctime())
         self.database.add_comment_to_answer(username, answer_id, comment, post_time)
+        return self.database.extract_all_comments()[len(self.database.extract_all_comments().keys())]

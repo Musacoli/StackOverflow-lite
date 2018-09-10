@@ -134,7 +134,7 @@ def delete_a_question(current_user, questionid):
 @token_required
 def add_an_answer(current_user, questionid):
     data = request.get_json()
-    error = "Unable to add answer due to missing/duplicate required fields. Try again."
+    error = {"Error" : "Unable to add answer due to missing/duplicate required fields. Try again."}
     if request.method == 'POST':
         try:
             username = current_user
@@ -151,9 +151,43 @@ def add_an_answer(current_user, questionid):
     else:
         abort(405)
 
+@app.route('/answers/<int:answerid>/update', methods=['PUT'])
+@token_required
+def update_an_answer(current_user, answerid):
+    data = request.get_json()
+    if request.method == 'PUT':
+        try:
+            new_answer = str(data.get('new_answer'))
+            if answerid in database.extract_all_answers().keys():
+                if database.extract_all_answers()[answerid]['username'] == current_user:
+                    return make_response(jsonify(ans.update_an_answer(answerid, new_answer))), 200
+                else:
+                    return make_response(jsonify({"Error":"Current user not authorized to delete this question.!"})), 403
+        except:
+            return make_response(jsonify({"ERROR!":"Unable to locate answer: Check answerID"})), 404
+
+@app.route('/answers/<int:answerid>/comment', methods=['POST'])
+@token_required
+def add_comment_to_answer(current_user, answerid):
+    data = request.get_json()
+    if request.method == 'POST':
+        username = current_user
+        comment = data.get("comment")
+        try:
+            if answerid  not in database.extract_all_answers().keys():
+                return make_response(jsonify({"ERROR!":"Answer not found: Answer ID out of range!"})), 404
+            elif (data == None) or (len(data) <= 0) or not data:
+                return make_response(jsonify({"ERROR!":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
+            else:
+                return jsonify(ans.add_comment_to_answer(username, answerid, comment)), 201
+        except:
+            return make_response(jsonify({"Error" : "Unable to add comment due to missing/duplicate required fields. Try again."})), 400
+    else:
+        abort(405)
+
 @app.errorhandler(404)
 def content_not_found(e):
-    return make_response(jsonify({"ERROR!":"Failed to locate questionID with requested answer"})), 404
+    return make_response(jsonify({"ERROR!":"Failed to locate requested content"})), 404
 
 @app.route('/questions/<int:questionid>/answers/<int:answerid>', methods=['PUT'])
 @token_required
@@ -162,7 +196,7 @@ def set_as_preferred_answer(current_user, questionid, answerid):
         if questionid in database.get_all_questions().keys():
             if answerid in database.extract_all_answers().keys():
                 if database.get_all_questions()[questionid]["username"] == current_user:
-                    return jsonify(ans.select_preferred_answer(answerid)), 201
+                    return jsonify(ans.select_preferred_answer(answerid)), 200
                 else:
                     return make_response(jsonify({"Error!":"Unable to perform operation, lack of access."})), 403
             else:

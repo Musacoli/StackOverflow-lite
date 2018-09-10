@@ -9,11 +9,15 @@ conn = connection
 uid = username       """
 class DatabaseConnection(object):
 
+    #while True:
+    #try:
+          
     def create_users_table(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_users_table_command = ('''CREATE TABLE IF NOT EXISTS users
-        (username TEXT NOT NULL,
+        (userid SERIAL,
+        username TEXT NOT NULL,
         first_name TEXT NOT NULL,
         surname TEXT NOT NULL,
         email VARCHAR(20) NOT NULL UNIQUE,
@@ -26,7 +30,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def create_new_user(self, username, firstname, surname, email, password):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_new_user_command = ("INSERT INTO users(username, first_name, surname, email, password) VALUES(%s, %s, %s, %s, %s)")
         self.cur.execute(create_new_user_command, (username, firstname, surname, email, password))
@@ -35,7 +39,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def extract_all_users(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM users;")
         users = self.cur.fetchall()
@@ -51,7 +55,7 @@ class DatabaseConnection(object):
     
 
     def create_questions_table(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS questions
         (question_id SERIAL,
@@ -68,7 +72,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def create_a_question(self, username, title, description, post_time):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_a_question_command = (' INSERT INTO questions (username, question_title, description, post_time) VALUES (%s, %s, %s, %s) ' )
         self.cur.execute(create_a_question_command, (username, title, description, post_time))
@@ -77,7 +81,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def get_all_questions(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM questions;")
         qids = self.cur.fetchall()
@@ -94,7 +98,7 @@ class DatabaseConnection(object):
         #self.conn.close()
     
     def get_latest_question_entry(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM questions ORDER BY question_id DESC;")
         last_question_entry = self.cur.fetchmany(size=1)
@@ -108,7 +112,7 @@ class DatabaseConnection(object):
                             }
                     }
     def get_question(self, question_id):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM questions WHERE question_id = {}").format(question_id)
         question = self.cur.fetchall()
@@ -122,7 +126,7 @@ class DatabaseConnection(object):
                     }
 
     def get_all_users_questions(self, username):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM questions WHERE username = %s;", [username])
         user_questions = self.cur.fetchall()
@@ -139,7 +143,7 @@ class DatabaseConnection(object):
 
 
     def get_answers_to_question(self, qid):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM answers WHERE question_id = %s;", [qid])
         ans = self.cur.fetchall()
@@ -156,7 +160,7 @@ class DatabaseConnection(object):
         return answers_to_question
 
     def delete_a_question(self, qid):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         delete_a_question_command = ("DELETE FROM questions WHERE question_id = %s;")
         self.cur.execute(delete_a_question_command, [qid])
@@ -165,7 +169,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def create_an_answers_table(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_an_answers_table_command = ('''CREATE TABLE IF NOT EXISTS answers
         (answer_id SERIAL,
@@ -175,6 +179,8 @@ class DatabaseConnection(object):
         description TEXT NOT NULL,
         post_time TIMESTAMP,
         preferred BOOLEAN,
+        upvotes INT,
+        downvotes INT,
         PRIMARY KEY (answer_id),
         FOREIGN KEY (question_id) REFERENCES questions (question_id) ON DELETE CASCADE,
         FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
@@ -185,7 +191,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def create_an_answer(self, question_id, username, title, description, post_time):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_an_answer_command = (' INSERT INTO answers (question_id, username, answer_title, description, post_time) VALUES (%s, %s, %s, %s, %s) ')
         self.cur.execute(create_an_answer_command, (question_id, username, title, description, post_time))
@@ -194,7 +200,7 @@ class DatabaseConnection(object):
         self.conn.close()
 
     def extract_all_answers(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM answers;")
         aids = self.cur.fetchall()
@@ -209,10 +215,9 @@ class DatabaseConnection(object):
                                         "post_time": answer[5]                                        
                                         }
         return answers_base
-        #self.conn.close()
 
     def get_latest_answer_entry(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         self.cur.execute("SELECT * FROM answers ORDER BY answer_id DESC;")
         last_answer_entry = self.cur.fetchmany(size=1)
@@ -227,24 +232,24 @@ class DatabaseConnection(object):
                             }
                     }
 
-    def update_an_existing_answer(self, new_answer):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+    def update_an_existing_answer(self, answer_id, new_answer):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        update_answer_command = ('UPDATE answers SET description = %s;')
-        self.cur.execute(update_answer_command, (new_answer))
+        update_answer_command = ('UPDATE answers WWHERE answer_id = %s SET description = %s;')
+        self.cur.execute(update_answer_command, (answer_id,new_answer))
 
     def select_answer_as_preferred_answer(self, aid):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         select_answer_command = ("""UPDATE answers SET preferred = True
-                                  WHERE answer_id = %s;""")
+                                WHERE answer_id = %s;""")
         self.cur.execute(select_answer_command, [aid])
         self.conn.commit()
         self.cur.close()
         self.conn.close()
     
     def create_comments_table(self):
-        self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
         create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS comments
         (comment_id SERIAL,
@@ -261,12 +266,36 @@ class DatabaseConnection(object):
         self.cur.close()
         self.conn.close()
 
-def add_comment_to_answer(self, username, answer_id, comment, post_time):
-    self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
-    self.cur = self.conn.cursor()
-    add_comment_command= ('INSERT INTO comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
-    self.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
-    
+    def add_comment_to_answer(self, username, answer_id, comment, post_time):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        add_comment_command= ('INSERT INTO comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
+        self.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
+
+    def extract_all_comments(self):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        self.cur.execute('SELECT * FROM comments;')
+        comment = self.cur.fetchall
+        comments = {}
+        for com in comment:
+            comment[com[0]] = {"username": com[1],
+                                "answer_id": com[2],
+                                "comment": com[3],
+                                "post_time": com[4]
+            }
+        return comments
+
+    """except:
+
+            def create_database(self):
+                self.conn = psycopg2.connect(database="postgres", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+                self.cur = self.conn.cursor()
+                self.cur.execute("CREATE DATABASE stackOLdb;")
+                self.cur.close()
+                self.conn.close()
+            continue"""
+
 create = DatabaseConnection()
 create.create_users_table()
 create.create_questions_table()
