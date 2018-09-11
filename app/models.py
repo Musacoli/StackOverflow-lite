@@ -54,3 +54,7 @@ class Answers(Questions):
         post_time = str(time.ctime())
         self.database.add_comment_to_answer(username, answer_id, comment, post_time)
         return self.database.extract_all_comments()[len(self.database.extract_all_comments().keys())]
+
+    def view_question_with_most_answers(self):
+        qid = self.database.view_question_with_most_answers()
+        return self.database.get_all_questions()[qid]

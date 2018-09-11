@@ -168,6 +168,26 @@ class DatabaseConnection(object):
         self.cur.close()
         self.conn.close()
 
+    def search_for_question(self, search_phrase):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        search_command = ("SELECT * FROM questions WHERE question_title LIKE '%{}%'; ")
+        self.cur.execute(search_command.format(search_phrase))
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()        
+
+    def view_question_with_most_answers(self):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        view_command = ('SELECT question_id, COUNT(answer_title) AS "answer" FROM answers GROUP BY category ORDER BY 2 LIMIT 1; ')
+        self.cur.execute(view_command)
+        question = self.cur.execute.fetchone()
+        self.cur.close()
+        self.conn.close()
+        for quest in question:
+            return quest[1]
+    
     def create_an_answers_table(self):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
@@ -237,6 +257,9 @@ class DatabaseConnection(object):
         self.cur = self.conn.cursor()
         update_answer_command = ('UPDATE answers WWHERE answer_id = %s SET description = %s;')
         self.cur.execute(update_answer_command, (answer_id,new_answer))
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
 
     def select_answer_as_preferred_answer(self, aid):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
@@ -244,6 +267,22 @@ class DatabaseConnection(object):
         select_answer_command = ("""UPDATE answers SET preferred = True
                                 WHERE answer_id = %s;""")
         self.cur.execute(select_answer_command, [aid])
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
+    
+    def upvote_answer(self, answer_id):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        self.cur.execute('UPDATE answers SET upvote = upvote +1 WHERE answer_id = %s; '% (answer_id))
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
+
+    def downvote_answer(self, answer_id):
+        self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
+        self.cur = self.conn.cursor()
+        self.cur.execute('UPDATE answers SET downvote = downvote +1 WHERE answer_id = %s; '% (answer_id))
         self.conn.commit()
         self.cur.close()
         self.conn.close()
@@ -277,6 +316,8 @@ class DatabaseConnection(object):
         self.cur = self.conn.cursor()
         self.cur.execute('SELECT * FROM comments;')
         comment = self.cur.fetchall
+        self.cur.close()
+        self.conn.close()
         comments = {}
         for com in comment:
             comment[com[0]] = {"username": com[1],
