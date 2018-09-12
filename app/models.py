@@ -44,7 +44,7 @@ class Answers(Questions):
 
     def update_an_answer(self, answer_id, new_answer):
         self.database.update_an_existing_answer(answer_id, new_answer)
-        return self.answers[answer_id]
+        return self.database.extract_all_answers()[answer_id]
 
     def select_preferred_answer(self, aid):
         self.database.select_answer_as_preferred_answer(aid)
@@ -53,7 +53,7 @@ class Answers(Questions):
     def add_comment_to_answer(self, username, answer_id, comment):
         post_time = str(time.ctime())
         self.database.add_comment_to_answer(username, answer_id, comment, post_time)
-        return self.database.extract_all_comments()[len(self.database.extract_all_comments().keys())]
+        return self.database.extract_all_comments()
 
     def view_question_with_most_answers(self):
         qid = self.database.view_question_with_most_answers()

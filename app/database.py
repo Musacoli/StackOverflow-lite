@@ -208,8 +208,8 @@ class DatabaseConnection(object):
         description TEXT NOT NULL,
         post_time TIMESTAMP,
         preferred BOOLEAN,
-        upvotes INT,
-        downvotes INT,
+        upvotes INT DEFAULT 0,
+        downvotes INT DEFAULT 0,
         PRIMARY KEY (answer_id),
         FOREIGN KEY (question_id) REFERENCES questions (question_id) ON DELETE CASCADE,
         FOREIGN KEY (username) REFERENCES users (username) ON DELETE CASCADE
@@ -264,8 +264,8 @@ class DatabaseConnection(object):
     def update_an_existing_answer(self, answer_id, new_answer):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        update_answer_command = ('UPDATE answers WWHERE answer_id = %s SET description = %s;')
-        self.cur.execute(update_answer_command, (answer_id,new_answer))
+        update_answer_command = ('UPDATE answers SET description = %s WHERE answer_id = %s;')
+        self.cur.execute(update_answer_command, (new_answer,answer_id))
         self.conn.commit()
         self.cur.close()
         self.conn.close()
@@ -283,7 +283,7 @@ class DatabaseConnection(object):
     def upvote_answer(self, answer_id):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute('UPDATE answers SET upvote = upvote +1 WHERE answer_id = %s; '% (answer_id))
+        self.cur.execute('UPDATE answers SET upvotes =upvotes +1 WHERE answer_id = %s; '% (answer_id))
         self.conn.commit()
         self.cur.close()
         self.conn.close()
@@ -291,7 +291,7 @@ class DatabaseConnection(object):
     def downvote_answer(self, answer_id):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute('UPDATE answers SET downvote = downvote +1 WHERE answer_id = %s; '% (answer_id))
+        self.cur.execute('UPDATE answers SET downvotes = downvotes +1 WHERE answer_id = %s; '% (answer_id))
         self.conn.commit()
         self.cur.close()
         self.conn.close()
@@ -299,7 +299,7 @@ class DatabaseConnection(object):
     def create_comments_table(self):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS comments
+        create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS answer_comments
         (comment_id SERIAL,
         username TEXT NOT NULL,
         answer_id INT NOT NULL,
@@ -317,24 +317,26 @@ class DatabaseConnection(object):
     def add_comment_to_answer(self, username, answer_id, comment, post_time):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        add_comment_command= ('INSERT INTO comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
+        add_comment_command= ('INSERT INTO answer_comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
         self.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
+        self.conn.commit()
+        self.cur.close()
+        self.conn.close()
 
     def extract_all_comments(self):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute('SELECT * FROM comments;')
-        comment = self.cur.fetchall
+        self.cur.execute('SELECT * FROM answer_comments ORDER BY comment_id DESC LIMIT 1;')
+        comment = self.cur.fetchall()
         self.cur.close()
         self.conn.close()
-        comments = {}
         for com in comment:
-            comment[com[0]] = {"username": com[1],
+            return {com[0] : {"username": com[1],
                                 "answer_id": com[2],
                                 "comment": com[3],
                                 "post_time": com[4]
-            }
-        return comments
+                                }
+                    }
 
     """except:
 

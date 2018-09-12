@@ -142,7 +142,7 @@ def search_for_a_question():
         result = jsonify({"status":0, "message":"Success", "records":qret}), 200
 
         return result
-        
+
     else:
         abort (405)
 
@@ -212,10 +212,10 @@ def add_comment_to_answer(current_user, answerid):
         try:
             if answerid  not in database.extract_all_answers().keys():
                 return make_response(jsonify({"ERROR!":"Answer not found: Answer ID out of range!"})), 404
-            elif (data == None) or (len(data) <= 0) or not data:
+            if (data == None) or (len(data) <= 0) or not data:
                 return make_response(jsonify({"ERROR!":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
-            else:
-                return jsonify(ans.add_comment_to_answer(username, answerid, comment)), 201
+            
+            return jsonify(ans.add_comment_to_answer(username, answerid, comment)), 201
         except:
             return make_response(jsonify({"Error" : "Unable to add comment due to missing/duplicate required fields. Try again."})), 400
     else:
