@@ -47,10 +47,10 @@ class DatabaseConnection(object):
         self.conn.close()
         users_base = {}
         for user in users:
-            users_base[user[0]] = {"firstname": user[1],
-                            "surname": user[2],
-                            "email": user[3],
-                            "password": user[4] }
+            users_base[user[1]] = {"firstname": user[2],
+                            "surname": user[3],
+                            "email": user[4],
+                            "password": user[5] }
         return users_base
     
 
@@ -95,7 +95,6 @@ class DatabaseConnection(object):
                                     "post_time": question[4]
                                     }
         return questions_base
-        #self.conn.close()
     
     def get_latest_question_entry(self):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
@@ -171,11 +170,21 @@ class DatabaseConnection(object):
     def search_for_question(self, search_phrase):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")
         self.cur = self.conn.cursor()
-        search_command = ("SELECT * FROM questions WHERE question_title LIKE '%{}%'; ")
-        self.cur.execute(search_command.format(search_phrase))
-        self.conn.commit()
+        search_command = ("SELECT * FROM questions WHERE question_title ILIKE %s ; ")
+        pattern = '%{}%'.format(search_phrase)
+        self.cur.execute(search_command, (pattern,))
+        result = self.cur.fetchall()
         self.cur.close()
-        self.conn.close()        
+        self.conn.close()
+        questions = {}
+        for quest in result:
+            questions[quest[0]] = {"username": quest[1],
+                                    "title": quest[2],
+                                    "description": quest[3],
+                                    "post_time": quest[4]
+                                }
+        return questions
+
 
     def view_question_with_most_answers(self):
         self.conn = psycopg2.connect(database="stackOLdb", user="postgres", password="Cm0778404576", host="127.0.0.1", port="5432")

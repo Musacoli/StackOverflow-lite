@@ -41,7 +41,7 @@ def page_not_found(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
-    return jsonify('Welcome to the StackOverflow-lite website')
+    return jsonify('Welcome to the StackOverflow-lite website'), 200
 
 @app.route('/signup', methods=['POST'])
 def create_a_user_account():
@@ -55,10 +55,12 @@ def create_a_user_account():
         try:
             if not data or data == "None" or len(data) == 0:
                 return make_response(jsonify({"ERROR!":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
+            elif len(password) <= 6 or password.isspace() or password.isalnum():
+                return make_response(jsonify({"Password too short":"Requires atleast 6 alphanumeric characters!"})), 406
             else:
                 return jsonify(user.add_user_account(username, firstname, surname, email, password)), 201
         except:
-            return make_response(jsonify({"ERROR!":"Username/email already exists! Try again"}))
+            return make_response(jsonify({"ERROR!":"Username/email already exists! Try again"})), 409
 
 @app.route('/auth/login', methods=['POST'])
 def login_a_user():
@@ -70,11 +72,11 @@ def login_a_user():
         if auth.username in database.extract_all_users().keys():
             if sha256_crypt.verify(auth.password, database.extract_all_users()[auth.username]["password"]):
                 token = jwt.encode({'username': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-                return make_response(jsonify({'Logged in successfully as:':'User','token': token.decode('UTF-8')})), 200
+                return make_response(jsonify({'Logged in successfully as:':'%s'% (auth.username),'token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify({"ERROR!":"Password is incorrect, try again"})), 400
         else:
-            return make_response(jsonify({"ERROR!":"Invalid username: Username doesn't exist!"})), 400
+            return make_response(jsonify({"ERROR!":"Invalid username: %s doesn't exist!" % (auth.username)})), 400
 
 @app.route('/auth/user/questions', methods=['GET'])
 @token_required
@@ -117,6 +119,40 @@ def view_a_question(questionid):
             return jsonify(stack.view_question(questionid)), 200
         except:
             return make_response(jsonify({"ERROR!":"Question doesn't exist: Check questionID!"})), 400
+
+@app.route('/questions/search', methods=['POST'])
+def search_for_a_question():
+    if request.method == 'POST':
+
+        data = request.get_json()
+
+        if not data or data == "None" or len(data) == 0:
+            return make_response(jsonify({"status":-1, "message":"EMPTY Payload"})), 400
+
+        phrase = str(data.get('search'))
+
+        if not phrase or phrase == "None" or len(phrase) == 0:
+            return make_response(jsonify({"status":-1, "message":"REQUIRED FIELD: Empty search parameter"})), 400
+
+        qret = database.search_for_question(phrase)
+
+        if len(qret.keys()) == 0:
+            return make_response(jsonify({"status":-1, "message":"Search returned no results."})), 404
+
+        result = jsonify({"status":0, "message":"Success", "records":qret}), 200
+
+        return result
+        
+    else:
+        abort (405)
+
+@app.route('/questions/max', methods=['GET'])
+def view_most_answered_question():
+    if request.method == 'GET':
+        try:
+            return jsonify(ans.view_question_with_most_answers()), 200
+        except:
+            return make_response(jsonify({"ERROR!":"Question doesn't exist!"})), 400
 
 @app.route('/questions/<int:questionid>', methods=['DELETE'])
 @token_required
@@ -184,6 +220,36 @@ def add_comment_to_answer(current_user, answerid):
             return make_response(jsonify({"Error" : "Unable to add comment due to missing/duplicate required fields. Try again."})), 400
     else:
         abort(405)
+
+@app.route('/questions/<int:questionid>/answers/<int:answerid>/up', methods=['PUT'])
+@token_required
+def upvote_an_answer(current_user, questionid, answerid):
+    if request.method == 'PUT':
+        if questionid in database.get_all_questions().keys():
+            if answerid in database.extract_all_answers().keys():
+                if database.extract_all_answers()[answerid]["username"] != current_user:
+                    return jsonify(database.upvote_answer(answerid)), 200
+                else:
+                    return make_response(jsonify({"Error!":"Unable to perform operation, lack of access."})), 403
+            else:
+                return make_response(jsonify({"ERROR!":"Unable to locate answer: Check answerID"})), 404
+        else:
+            return make_response(jsonify({"ERROR!":"Failed to locate questionID for requested answer"})), 404
+
+@app.route('/questions/<int:questionid>/answers/<int:answerid>/down', methods=['PUT'])
+@token_required
+def downvote_an_answer(current_user, questionid, answerid):
+    if request.method == 'PUT':
+        if questionid in database.get_all_questions().keys():
+            if answerid in database.extract_all_answers().keys():
+                if database.extract_all_answers()[answerid]["username"] != current_user:
+                    return jsonify(database.downvote_answer(answerid)), 200
+                else:
+                    return make_response(jsonify({"Error!":"Unable to perform operation, lack of access."})), 403
+            else:
+                return make_response(jsonify({"ERROR!":"Unable to locate answer: Check answerID"})), 404
+        else:
+            return make_response(jsonify({"ERROR!":"Failed to locate questionID for requested answer"})), 404
 
 @app.errorhandler(404)
 def content_not_found(e):
