@@ -61,7 +61,7 @@ def create_a_user_account():
                 return make_response(jsonify({"status":-1, "message":"Password not strong enough: Requires atleast 6 alphanumeric characters!"})), 406
     
             database.create_new_user(username, firstname, surname, email, password)
-            return jsonify({"status":1, "message":"Success", "records":"Welcome %s Sign Up Successfull"% (username)}), 201
+            return make_response(jsonify({"status":1, "message":"Success", "records":"Welcome %s Sign Up Successfull"% (username)})), 201
         except:
             return make_response(jsonify({"status":-1, "message":"Username/email already exists! Try again"})), 409
 
@@ -89,7 +89,7 @@ def view_all_questions_user_asked(current_user):
             return make_response(jsonify({"status":-2, "message": "No available questions by current user."})), 404
         
         users_questions = database.get_all_users_questions(current_user)
-        return jsonify({"status":0, "message":"Success", "records":users_questions}), 200
+        return make_response(jsonify({"status":0, "message":"Success", "records":users_questions})), 200
 
 @app.route('/questions', methods=['GET'])
 def view_all_questions():
@@ -98,7 +98,7 @@ def view_all_questions():
             return make_response(jsonify({"status":-2, "message":"No available questions to display"})), 404
         
         all_questions = database.get_all_questions()
-        return jsonify({"status":0, "message":"Success", "records":all_questions}), 200
+        return make_response(jsonify({"status":0, "message":"Success", "records":all_questions})), 200
 
 @app.route('/questions', methods=['POST'])
 @token_required
@@ -114,7 +114,7 @@ def add_question(current_user):
                 return make_response(jsonify({"status":-1, "message":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
             
             posted_answer = stack.add_questions(username, title, description)
-            return jsonify({"status":1, "message":"Success", "records":posted_answer}), 201
+            return make_response(jsonify({"status":1, "message":"Success", "records":posted_answer})), 201
         except:
             return make_response(jsonify({"status":-1, "message":error})), 400
 
@@ -123,7 +123,7 @@ def view_a_question(questionid):
     if request.method == 'GET':
         try:
             questions = stack.view_question(questionid)
-            return jsonify({"status":0, "message":"Success", "records":questions}), 200
+            return make_response(jsonify({"status":0, "message":"Success", "records":questions})), 200
         except:
             return make_response(jsonify({"status":-2, "message":"Question doesn't exist: Check questionID!"})), 400
 
@@ -146,9 +146,7 @@ def search_for_a_question():
         if len(qret.keys()) == 0:
             return make_response(jsonify({"status":-2, "message":"Search returned no results."})), 404
 
-        result = jsonify({"status":0, "message":"Success", "records":qret}), 200
-
-        return result
+        return make_response(jsonify({"status":0, "message":"Success", "records":qret})), 200
 
     else:
         abort (405)
@@ -158,7 +156,7 @@ def view_most_answered_question():
     if request.method == 'GET':
         try:
             result = ans.view_question_with_most_answers()
-            return jsonify({"status":0, "message":"Success", "records":result}), 200
+            return make_response(jsonify({"status":0, "message":"Success", "records":result})), 200
         except:
             return make_response(jsonify({"status":-2, "message":"Question doesn't exist!"})), 400
 
@@ -191,7 +189,7 @@ def add_an_answer(current_user, questionid):
                 return make_response(jsonify({"status":-1, "message":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
             
             result = ans.add_answer(questionid, username, title, description)
-            return jsonify({"status":1, "message":"Success", "records":result}), 201
+            return make_response(jsonify({"status":1, "message":"Success", "records":result})), 201
         except:
             return make_response(jsonify({"status":-1, "message":"Unable to add answer due to missing/duplicate required fields. Try again."})), 400
     else:
@@ -228,7 +226,7 @@ def add_comment_to_answer(current_user, answerid):
                 return make_response(jsonify({"status":-1, "message":"REQUIRED FIELD: Don't leave blank or submit spaces!"})), 400
             
             result = ans.add_comment_to_answer(username, answerid, comment)
-            return jsonify({"status":1, "message":"Success", "records":result}), 201
+            return make_response(jsonify({"status":1, "message":"Success", "records":result})), 201
         except:
             return make_response(jsonify({"status":-1, "message":"Unable to add comment due to missing/duplicate required fields. Try again."})), 400
     else:
@@ -242,7 +240,7 @@ def upvote_an_answer(current_user, questionid, answerid):
             if answerid in database.extract_all_answers().keys():
                 if database.extract_all_answers()[answerid]["username"] != current_user:
                     database.upvote_answer(answerid)
-                    return jsonify({"status":1, "message":"Success"}), 200
+                    return make_response(jsonify({"status":1, "message":"Success"})), 200
                 else:
                     return make_response(jsonify({"status":-1, "message":"Unable to perform operation, lack of access."})), 403
             else:
@@ -258,7 +256,7 @@ def downvote_an_answer(current_user, questionid, answerid):
             if answerid in database.extract_all_answers().keys():
                 if database.extract_all_answers()[answerid]["username"] != current_user:
                     database.downvote_answer(answerid)
-                    return jsonify({"status":1, "message":"Success"}), 200
+                    return make_response(jsonify({"status":1, "message":"Success"})), 200
                 else:
                     return make_response(jsonify({"status":-1, "message":"Unable to perform operation, lack of access."})), 403
             else:
@@ -278,7 +276,7 @@ def set_as_preferred_answer(current_user, questionid, answerid):
             if answerid in database.extract_all_answers().keys():
                 if database.get_all_questions()[questionid]["username"] == current_user:
                     database.select_answer_as_preferred_answer(answerid)
-                    return jsonify({"status":1, "message":"Success"}), 200
+                    return make_response(jsonify({"status":1, "message":"Success"})), 200
                 else:
                     return make_response(jsonify({"status":-1, "message":"Unable to perform operation, lack of access."})), 403
             else:
