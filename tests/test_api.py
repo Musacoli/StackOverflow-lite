@@ -15,18 +15,17 @@ class TestForModels(unittest.TestCase):
         self.database = DatabaseConnection()
         self.generate = TextGenerator()
 
-    def test_if_user_is_added(self):
-        username = self.generate.user()
-        user = self.user.add_user_account(username, 'test', 'name', '%sjknda@gmail.com'% (username), 'testpassword')
-        assert user == {"Welcome %s "% (username):"Sign Up Successfull"}
-
     def test_if_question_is_added(self):
-        assert isinstance(self.quest.add_questions('molin', 'what is a hexadecimajknkl', "I got it from a forum"),  dict)
+        assert isinstance(self.quest.add_questions('test', self.generate.question(), "I got it from a forum"),  dict)
 
-    """def test_for_duplicate_questionids(self):
-        assert  self.quest.questions[1] != self.quest.questions[5]
+    def test_for_duplicate_questionids(self):
+        user = self.generate.user()
+        self.database.create_new_user(user, 'test', 'user','%s@gmail.com'% user, 'testpassword')
+        self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
+        self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
+        assert  self.quest.questions[2] != self.quest.questions[3]
 
-    def test_if_questions_can_be_viewed(self):
+    """def test_if_questions_can_be_viewed(self):
         assert isinstance(self.database.get_all_questions(), dict)
 
     def test_if_a_question_is_viewed(self):
