@@ -25,23 +25,27 @@ class TestForModels(unittest.TestCase):
         self.database.create_new_user(user, 'test', 'user','%s@gmail.com'% user, 'testpassword')
         self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
         self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
-        assert  self.database.get_all_questions()[2] != self.database.get_all_questions()[3]
+        assert  self.database.get_all_questions()[1] != self.database.get_all_questions()[2]
 
-    """def test_if_questions_can_be_viewed(self):
+    def test_if_questions_can_be_viewed(self):
         assert isinstance(self.database.get_all_questions(), dict)
 
     def test_if_a_question_is_viewed(self):
-        assert isinstance(self.quest.view_question(1), tuple)
+        assert isinstance(self.quest.view_question(1), list)
 
-    def test_if_a_question_can_be_deleted(self):
-        self.quest.delete_question(8)
-        assert isinstance(self.quest.view_question(8), KeyError)
+    """def test_if_a_question_can_be_deleted(self):
+        user = self.generate.user()
+        self.database.create_new_user(user, 'test', 'user', '%s@gmail.com'% user, 'testpassword')
+        self.database.delete_a_question(self.database.get_latest_question_entry().keys)
+        assert isinstance(self.quest.view_question(8), KeyError)"""
 
     def test_if_an_answer_is_added(self):
-        assert isinstance(self.ans.add_answer(1, 'collo', 'explanatbkjkjion of a tuple', 'This is a True/False scenario'), dict)
+        user = self.generate.user()
+        self.database.create_new_user(user, 'test', 'user','%s@gmail.com'% user, 'testpassword')
+        assert isinstance(self.ans.add_answer(1, user, self.generate.answer(), 'This is a True/False scenario'), dict)
 
 
-class TestForEndpoints(unittest.TestCase):
+"""class TestForEndpoints(unittest.TestCase):
     def setUp(self):
         self.app = app
         self.client = self.app.test_client
@@ -112,12 +116,12 @@ class TestForEndpoints(unittest.TestCase):
     def test_for_deleting_a_question(self):
         res = self.client().delete('/questions/22')
         self.assertEqual(res.status_code, 202)
-"""
-    """def test_for_selecting_preferred_answer(self):
-        res = self.client().put('/questions/1/answers/1')
-        self.assertEqual(res.status_code, 201)"""
 
-    """def test_for_adding_answers(self):
+    def test_for_selecting_preferred_answer(self):
+        res = self.client().put('/questions/1/answers/1')
+        self.assertEqual(res.status_code, 201)
+
+    def test_for_adding_answers(self):
         res = self.client().post('/questions/1/answers', data=json.dumps(self.ans.add_answer(1, 'collo', 'explangrgsgzgation of a bolean', 'This is a True/False scenario')), content_type="application/json")
         self.assertEqual(res.status_code, 201)"""
 

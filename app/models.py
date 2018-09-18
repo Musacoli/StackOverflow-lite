@@ -24,13 +24,13 @@ class Questions(Users):
     def view_question(self, qid):
         answers_to_question = self.database.get_answers_to_question(qid)
         text = "ANSWERS TO QUESTION ABOVE"
-        return self.database.get_all_questions()[qid], text, answers_to_question
+        return [self.database.get_all_questions()[qid], text, answers_to_question]
 
 class Answers(Questions):
     def add_answer(self, qid, username, title, description):
         atime = str(time.ctime())
         self.database.create_an_answer(qid, username, title, description, atime)
-        return self.database.extract_all_answers()[len(self.database.extract_all_answers().keys())]
+        return self.database.get_latest_answer_entry()
 
     def update_an_answer(self, answer_id, new_answer):
         self.database.update_an_existing_answer(answer_id, new_answer)

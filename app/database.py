@@ -245,8 +245,8 @@ class DatabaseConnection(object):
     def get_latest_answer_entry(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute("SELECT * FROM answers ORDER BY answer_id DESC;")
-        last_answer_entry = self.cur.fetchmany(size=1)
+        self.cur.execute("SELECT * FROM answers ORDER BY answer_id DESC LIMIT 1;")
+        last_answer_entry = self.cur.fetchall()
         self.cur.close()
         self.conn.close()
         for last in last_answer_entry:
