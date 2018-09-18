@@ -96,8 +96,8 @@ class DatabaseConnection(object):
     def get_latest_question_entry(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute("SELECT * FROM questions ORDER BY question_id DESC;")
-        last_question_entry = self.cur.fetchmany(size=1)
+        self.cur.execute("SELECT * FROM questions ORDER BY question_id DESC LIMIT 1;")
+        last_question_entry = self.cur.fetchall()
         self.cur.close()
         self.conn.close()
         for last_question in last_question_entry:
@@ -296,7 +296,7 @@ class DatabaseConnection(object):
     def create_comments_table(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS answer_comments
+        create_questions_table_command = ('''CREATE TABLE IF NOT EXISTS comments
         (comment_id SERIAL,
         username TEXT NOT NULL,
         answer_id INT NOT NULL,
@@ -314,7 +314,7 @@ class DatabaseConnection(object):
     def add_comment_to_answer(self, username, answer_id, comment, post_time):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        add_comment_command= ('INSERT INTO answer_comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
+        add_comment_command= ('INSERT INTO comments (username, answer_id, comment, post_time) VALUES (%s,%s,%s,%s);')
         self.cur.execute(add_comment_command, (username, answer_id, comment, post_time))
         self.conn.commit()
         self.cur.close()
@@ -323,7 +323,7 @@ class DatabaseConnection(object):
     def extract_all_comments(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        self.cur.execute('SELECT * FROM answer_comments ORDER BY comment_id DESC LIMIT 1;')
+        self.cur.execute('SELECT * FROM comments ORDER BY comment_id DESC LIMIT 1;')
         comment = self.cur.fetchall()
         self.cur.close()
         self.conn.close()

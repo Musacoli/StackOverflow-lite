@@ -19,7 +19,7 @@ class Questions(Users):
     def add_questions(self, username, question_title, description):
         ptime = str(time.ctime())
         self.database.create_a_question(username, question_title, description, ptime)
-        return self.database.get_all_questions()[len(self.database.get_all_questions().keys())]
+        return self.database.get_latest_question_entry()
 
     def view_question(self, qid):
         answers_to_question = self.database.get_answers_to_question(qid)
