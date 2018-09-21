@@ -11,20 +11,17 @@ class TestForModels(unittest.TestCase):
     def setUp(self):
         self.quest = Questions()
         self.ans = Answers()
-        self.user = Users()
         self.database = DatabaseConnection()
         self.generate = TextGenerator()
+        self.user = self.generate.user()
+        self.database.create_new_user(self.user, 'test', 'user', '%s@gmail.com'% self.user, 'testpassword')
 
     def test_if_question_is_added(self):
-        user = self.generate.user()
-        self.database.create_new_user(user, 'test', 'user', '%s@gmail.com'% user, 'testpassword')
-        assert isinstance(self.quest.add_questions(user, self.generate.question(), "I got it from a forum"),  dict) 
+        assert isinstance(self.quest.add_questions(self.user, self.generate.question(), "I got it from a forum"),  dict) 
 
     def test_for_duplicate_questionids(self):
-        user = self.generate.user()
-        self.database.create_new_user(user, 'test', 'user','%s@gmail.com'% user, 'testpassword')
-        self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
-        self.quest.add_questions(user, self.generate.question(), "I got it from a forum")
+        self.quest.add_questions(self.user, self.generate.question(), "I got it from a forum")
+        self.quest.add_questions(self.user, self.generate.question(), "I got it from a forum")
         assert  self.database.get_all_questions()[1] != self.database.get_all_questions()[2]
 
     def test_if_questions_can_be_viewed(self):
@@ -33,16 +30,29 @@ class TestForModels(unittest.TestCase):
     def test_if_a_question_is_viewed(self):
         assert isinstance(self.quest.view_question(1), list)
 
-    """def test_if_a_question_can_be_deleted(self):
-        user = self.generate.user()
-        self.database.create_new_user(user, 'test', 'user', '%s@gmail.com'% user, 'testpassword')
-        self.database.delete_a_question(self.database.get_latest_question_entry().keys)
-        assert isinstance(self.quest.view_question(8), KeyError)"""
+    def test_if_a_question_can_be_deleted(self):
+        self.quest.add_questions(self.user, self.generate.question(), "I got it from a forum")
+        for key in self.database.get_latest_question_entry().keys():
+            self.database.delete_a_question(key)
+        assert IsADirectoryError(self.database.get_all_questions().get(key), KeyError)
 
     def test_if_an_answer_is_added(self):
-        user = self.generate.user()
-        self.database.create_new_user(user, 'test', 'user','%s@gmail.com'% user, 'testpassword')
-        assert isinstance(self.ans.add_answer(1, user, self.generate.answer(), 'This is a True/False scenario'), dict)
+        assert isinstance(self.ans.add_answer(1, self.user, self.generate.answer(), 'This is a True/False scenario'), dict)
+
+    def test_for_updating_an_answer(self):
+        original_answer = self.database.get_latest_answer_entry()
+        for key in original_answer.keys():
+            update = self.ans.update_an_answer(key, self.generate.answer())
+        assert original_answer != update
+
+    def test_for_commenting_on_an_answer(self):
+        question = self.database.get_latest_answer_entry()
+        for key in question.keys():
+            comment = self.ans.add_comment_to_answer(self.user, key, self.generate.comment())
+        assert isinstance(comment, dict)
+        
+    def test_for_viewing_question_with_most_answers(self):
+        assert isinstance(self.ans.view_question_with_most_answers(), dict)
 
 
 """class TestForEndpoints(unittest.TestCase):

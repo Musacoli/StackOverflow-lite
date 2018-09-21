@@ -186,9 +186,9 @@ class DatabaseConnection(object):
     def view_question_with_most_answers(self):
         self.conn = psycopg2.connect(database="dcfkj3ivcuaqbu", user="qzbfyxixkixkft", password="d8b4ba70fe124cb34085745edcff405a056451ff635978eee11efa337bd36aa2", host="ec2-54-221-237-246.compute-1.amazonaws.com", port="5432")
         self.cur = self.conn.cursor()
-        view_command = ('SELECT question_id, COUNT(answer_title) AS "answer" FROM answers GROUP BY category ORDER BY 2 LIMIT 1; ')
+        view_command = ('SELECT question_id, COUNT(answer_title) AS "answer" FROM answers GROUP BY question_id ORDER BY 2 LIMIT 1; ')
         self.cur.execute(view_command)
-        question = self.cur.execute.fetchone()
+        question = self.cur.fetchall()
         self.cur.close()
         self.conn.close()
         for quest in question:
