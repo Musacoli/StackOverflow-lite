@@ -1,5 +1,6 @@
 import unittest
 import pytest
+import nose
 from app.models import Users, Questions, Answers
 from app.views import app
 from app.database import DatabaseConnection
@@ -104,9 +105,9 @@ class TestForEndpoints(unittest.TestCase):
         res = self.client.post('/auth/login', data=json.dumps({"username":self.user, "password":'tesssword'}), content_type="application/json")
         self.assertEqual(res.status_code, 400)
 
-    ##def test_for_viewing_all_questions_users_asked(self):
-        #res = self.client.get('/auth/user/questions', headers={'x-access-token' : self.token})
-        #self.assertEqual(res.status_code, 200)
+    def test_for_viewing_all_questions_users_asked(self):
+        res = self.client.get('/auth/user/questions', headers={'x-access-token' : self.token})
+        self.assertEqual(res.status_code, 200)
 
     """def test_for_adding_questions(self):
         res = self.client.post('/questions', data=json.dumps(self.quest.add_questions('musa', 'what icvbfs a boolean', "I got it from a forum")), content_type="application/json")

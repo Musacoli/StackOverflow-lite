@@ -51,7 +51,6 @@ def create_a_user_account():
     surname = str(data.get("surname"))
     email = str(data.get("email"))
     get_pass = str(data.get("password"))
-    password = sha256_crypt.encrypt(get_pass)
     if request.method == 'POST':
         try:
             if not data or data == "None" or len(data) == 0:
@@ -60,26 +59,26 @@ def create_a_user_account():
             if len(get_pass) <= 6  or (get_pass.isalpha and get_pass.isdigit()):
                 return make_response(jsonify({"status":-1, "message":"Password not strong enough: Requires atleast 6 alphanumeric characters!"})), 406
     
-            database.create_new_user(username, firstname, surname, email, password)
+            database.create_new_user(username, firstname, surname, email, get_pass)
             return make_response(jsonify({"status":1, "message":"Success", "records":"Welcome %s Sign Up Successfull"% (username)})), 201
         except:
             return make_response(jsonify({"status":-1, "message":"Username/email already exists! Try again"})), 409
 
 @app.route('/auth/login', methods=['POST'])
 def login_a_user():
-    auth = request.authorization
-    #data = request.get_json()
-    #username = data.get("username")
-    #password = data.get("password")
+    #auth = request.authorization
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
     if request.method == 'POST':
-        if auth.username in database.extract_all_users().keys():
-            if sha256_crypt.verify(auth.password, database.extract_all_users()[auth.username]["password"]):
-                token = jwt.encode({'username': auth.username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
-                return make_response(jsonify({'status':0, 'message':'Logged in successfully as: %s'% (auth.username),'token': token.decode('UTF-8')})), 200
+        if username in database.extract_all_users().keys():
+            if sha256_crypt.verify(password, database.extract_all_users()[username]["password"]):
+                token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
+                return make_response(jsonify({'status':0, 'message':'Logged in successfully as: %s'% (username),'token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify({"status":-1, "message":"Password is incorrect, try again"})), 400
         else:
-            return make_response(jsonify({"status":-2, "message":"Invalid username: %s doesn't exist!" % (auth.username)})), 404
+            return make_response(jsonify({"status":-2, "message":"Invalid username: %s doesn't exist!" % (username)})), 404
 
 @app.route('/auth/user/questions', methods=['GET'])
 @token_required
@@ -125,7 +124,7 @@ def view_a_question(questionid):
             questions = stack.view_question(questionid)
             return make_response(jsonify({"status":0, "message":"Success", "records":questions})), 200
         except:
-            return make_response(jsonify({"status":-2, "message":"Question doesn't exist: Check questionID!"})), 400
+            return make_response(jsonify({"status":-2, "message":"Question doesn't exist: Check questionID!"})), 404
 
 @app.route('/questions/search', methods=['POST'])
 def search_for_a_question():
