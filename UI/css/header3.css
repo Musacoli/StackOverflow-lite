@@ -1,0 +1,74 @@
+.flex-container {
+    display: flex;
+    background-color: rgba(7, 164, 249, 0.789);
+    height: 5%;
+    width: 100%;
+    font-family: 'Exo', sans-serif;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: 0px;
+ }
+ 
+ .logo {
+     height: 100px;
+ }
+ 
+ .logo:hover {
+     cursor: pointer;
+ }
+ .flex-container h1 {
+     font-size: 60px;
+     padding: 0px;
+ }
+ 
+ button {
+     height: 80px;
+     width: 130px;
+     font-family: 'Exo', sans-serif;
+     font-size: 20px;
+     border: 0;
+ }
+ 
+ .log {
+     background-color: rgba(0, 51, 255, 0.529);
+     color: white;
+ }
+ 
+ .log:hover {
+     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+     color: black;
+     background-color: white;
+     cursor: pointer;
+ }
+ 
+ .reg {
+     background-color: orange;
+     color: white;
+ }
+ 
+ .reg:hover {
+     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+     color: black;
+     background-color: white;
+     cursor: pointer;
+ }
+ 
+ .flex-container input{
+     font-size: 30px;
+     border: 1px solid grey;
+     border-radius: 10px;
+ }
+
+ .container {
+     display: flex;
+     flex-direction: row;
+     height:70%;
+     width: 100%;
+     align-content: stretch;   
+ }
+
+ .pic {
+     width: 50%;
+     height: 50%;
+ }
