@@ -2,6 +2,7 @@
 
 StackOverflow lite is a platform where users are able to ask questions, receive answers and select or upvote which answer best suited the question asked.
 
+
 Link to Hosted Version on Heroku
 (<https://stackoverflow-lite-collo.herokuapp.com/)>
 
@@ -38,5 +39,3 @@ When needing to view all questions without having logged in, visit:
 
 To view all questions that a user has asked/posted before visit:
 (<http://127.0.0.1:5000/auth/user/questions)>
-
-
