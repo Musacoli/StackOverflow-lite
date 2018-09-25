@@ -7,7 +7,7 @@ from flask import jsonify, json
 from .test_data_generator import TextGenerator
 import psycopg2
 import json
-
+import jwt
 class TestForModels(unittest.TestCase):
     def setUp(self):
         self.quest = Questions()
@@ -67,7 +67,7 @@ class TestForEndpoints(unittest.TestCase):
         self.user = self.generate.user()
         self.database.create_new_user(self.user, 'test', 'user', '%s@gmail.com'% self.user, 'testpassword')
         login = self.client.post('/auth/login', data=json.dumps({"username":self.user, "password":'testpassword'}), content_type="application/json")
-        data = json.loads(login.data.decode())
+        data = json.loads(login.data)
         self.token = data['token']
 
     def test_for_hello_route(self):
@@ -104,13 +104,13 @@ class TestForEndpoints(unittest.TestCase):
         res = self.client.post('/auth/login', data=json.dumps({"username":self.user, "password":'tesssword'}), content_type="application/json")
         self.assertEqual(res.status_code, 400)
 
-    ##def test_for_viewing_all_questions_users_asked(self):
-        #res = self.client.get('/auth/user/questions', headers={'x-access-token' : self.token})
-        #self.assertEqual(res.status_code, 200)
-
     """def test_for_adding_questions(self):
-        res = self.client.post('/questions', data=json.dumps(self.quest.add_questions('musa', 'what icvbfs a boolean', "I got it from a forum")), content_type="application/json")
+        res = self.client.post('/questions', data=json.dumps({"title": self.generate.question, "description":"I got it from a forum"}), headers={'x-access-token' : self.token}, content_type="application/json")
         self.assertEqual(res.status_code, 201)
+
+    def test_for_viewing_all_questions_users_asked(self):
+        res = self.client.get('/auth/user/questions', headers={'x-access-token' : self.token})
+        self.assertEqual(res.status_code, 200)
 
     def test_for_adding_a_blank_question(self):
         res = self.client.post('/questions', data=json.dumps(self.quest.add_questions('', '', "")), content_type="application/json")
