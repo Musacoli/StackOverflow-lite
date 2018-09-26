@@ -16,7 +16,7 @@
                 <div><a href="../../index.html"><button type="button" class="reg" >COMMUNITY</button></a></div>
                 <div><a href="login.html"><button type="button" class="log">LOG OUT</button></a></div>
             </div>
-            <div class="flex-container4">
+            <div class="flex-container4" id="user_data">
                 <div class="row1">
                     <div class="col1">
 
@@ -24,11 +24,11 @@
                     <div class="col2">
                         <div class="cl">
                             <div class="ched">First Name:</div>
-                            <div><h1>Tracy</h1></div>
+                            <div><h1 id="firstname"></h1></div>
                         </div>
                         <div class="cl">
                             <div class="ched">Username:</div>
-                            <div><h1>Nicole</h1></div>
+                            <div><h1 id="username"></h1></div>
                         </div>
                         <div class="cl">
                             <div class="ched">Primary Stack:</div>
@@ -39,11 +39,11 @@
                     <div class="col3">
                             <div class="cl">
                                 <div class="ched">Surname:</div>
-                                <div><h1>Nakiya</h1></div>
+                                <div><h1 id="surname"></h1></div>
                                 </div>
                             <div class="cl">
                                 <div class="ched">Email:</div>
-                                <div><h1>tracynaki@gmail.com</h1></div>
+                                <div><h1 id="email"></h1></div>
                                 </div>
                             <div class="cl">
                                 <div class="ched">Rating</div>
@@ -66,9 +66,12 @@
 
                     </div>
                 </div>
-                <div class="row2">
+                <div class="row2" >
                     <div class="ched"><h1>Questions Asked</h1></div>
                     <div><a href="q_a_page.html"><h2>Sample Question.</h2></a></div>
+                    <div id="user_questions"><button id='view_questions' class="view">View All Users Questions</button>
+                    </div>
+                </div>
                 </div>
                 <!-- <div class="bgpic"><h2>WELCOME TO STACK OVERFLOW LITE</h2></div> -->
             </div>
@@ -76,6 +79,62 @@
         </div>
         
     </body>
+    <script>
+        document.getElementById("user_data").addEventListener('onload', updateUserData)
+        document.getElementById("view_questions").addEventListener('click', viewQuestions)
+        
+        function updateUserData() {
+            let username = localStorage.getItem("username")
+            let firstname = localStorage.getItem("firstname")
+            let surname = localStorage.getItem("surname")
+            let email = localStorage.getItem("email")
+            let token = localStorage.getItem("token")
+            if (token = null) {
+                redirect: window.location.replace("login.html");
+            } else {
+                document.getElementById("username").innerHTML = username.toString();
+                document.getElementById("firstname").innerHTML = firstname.toString();
+                document.getElementById("surname").innerHTML = surname.toString();
+                document.getElementById("email").innerHTML = email.toString();
+            }
+
+        }
+
+        function viewQuestions() {
+
+            let token = localStorage.getItem("token")
+            console.log(token);
+            if (token = null) {
+                redirect: window.location.replace("login.html");
+            } else {
+                fetch('http://127.0.0.1:5000/auth/user/questions', {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-type': 'application/json',
+                        'x-access-token': `${localStorage.getItem("token")}`
+                    }
+                }) 
+                .then((res) => res.json())
+                .then ((data) => {
+                    console.log(data);
+                    let output
+                    Object.values(data['records']).forEach(function(question){
+                        output = `
+                                <h3>Title: ${question.question_title}</h3>
+                                <br>Description: ${question.description}
+                                <br>Time: ${question.post_time}
+                                <br>Posted By: ${question.username}
+                        `;
+                    });
+                    
+                    document.getElementById('user_questions').innerHTML = output;
+                })
+            }
+        }
+
+    </script>
     <footer>
             <div class="footer-container">
                     <div>

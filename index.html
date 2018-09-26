@@ -3,6 +3,7 @@
     <head>
         <title>HOME</title>
         <link href="UI/css/header.css" rel="stylesheet" type="text/css">
+        <link href="UI/css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
 
@@ -19,12 +20,44 @@
              <div class="flex-container2">
                 <div class="bgpic"><h2>WELCOME TO STACK OVERFLOW LITE</h2></div>
              </div>
-        </div>
+             <div id='test'><button id='output' class="view">View All Questions</button></div>
+                </div>
+                 <script>
+                     document.getElementById('output').addEventListener('click', getTest);
+
+                     function getTest() {
+                        // let headers = new Headers();
+
+                        // headers.append('Access-Control-Allow-Origin', '*');
+                        //  headers.append('Access-Control-Allow-Credentials', 'true');
+                        //  headers.append('Accept', 'application/json, text/plain, */*')
+                        fetch('http://127.0.0.1:5000/questions') 
+                        .then((res) => res.json())
+                        .then ((data) => {
+                            console.log(data);
+                            let output = '<h3>Questions</h3>';
+                            Object.values(data['records']).forEach(function(question){
+                                let qid = 0
+                                qid++
+                                output += `
+                                    <div class="r1">
+                                        <h1>Question</h1>
+                                        <h3>Title: ${question.question_title}</h3>
+                                        <p>Description: ${question.description}</p>
+                                        <br>Time: ${question.post_time}
+                                        <br>Posted By: ${question.username}
+                                </div>`;
+                            });
+                            
+                            document.getElementById('test').innerHTML = output;
+                        })
+                     }
+                 </script>
     </body>
     <footer>
             <div class="footer-container">
                 <div>
-                    <a href="#bottom"><h1>COMMUNITY</h1></a>
+                    <a href="#bottom" id='community'><h1>COMMUNITY</h1></a>
                 </div>
                 <div>
                     <a href="UI/html/login.html"><h1>PROFILE</h1></a>
