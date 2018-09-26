@@ -10,7 +10,15 @@ function getQuestions() {
    // headers.append('Access-Control-Allow-Origin', '*');
    //  headers.append('Access-Control-Allow-Credentials', 'true');
    //  headers.append('Accept', 'application/json, text/plain, */*')
+<<<<<<< HEAD
    fetch('https://stackoverflow-lite-collo.herokuapp.com/questions') 
+=======
+<<<<<<< HEAD
+   fetch('https://stackoverflow-lite-collo.herokuapp.com/questions') 
+=======
+   fetch('http://127.0.0.1:5000/questions') 
+>>>>>>> 820f4501a78258999d7daf44736dbeb34722aa3a
+>>>>>>> c4f15d8156a666d3e993211ca2b04ef158c7fb37
    .then((res) => res.json())
    .then ((data) => {
        console.log(data);
@@ -43,7 +51,15 @@ function signUp(e) {
     let password = document.getElementById('password').value;
     let cpassword = document.getElementById('cpassword').value;
 
+<<<<<<< HEAD
     fetch('https://stackoverflow-lite-collo.herokuapp.com/signup', {
+=======
+<<<<<<< HEAD
+    fetch('https://stackoverflow-lite-collo.herokuapp.com/signup', {
+=======
+    fetch('http://127.0.0.1:5000/signup', {
+>>>>>>> 820f4501a78258999d7daf44736dbeb34722aa3a
+>>>>>>> c4f15d8156a666d3e993211ca2b04ef158c7fb37
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -69,7 +85,15 @@ function login(e) {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
 
+<<<<<<< HEAD
     fetch('https://stackoverflow-lite-collo.herokuapp.com/auth/login', {
+=======
+<<<<<<< HEAD
+    fetch('https://stackoverflow-lite-collo.herokuapp.com/auth/login', {
+=======
+    fetch('http://127.0.0.1:5000/auth/login', {
+>>>>>>> 820f4501a78258999d7daf44736dbeb34722aa3a
+>>>>>>> c4f15d8156a666d3e993211ca2b04ef158c7fb37
         method: 'POST',
         headers: {
             'Accept': 'application/json, text/plain, */*',
