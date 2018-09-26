@@ -22,14 +22,23 @@
                             <div><h1>Question Form</h1></div>
                             <div>
                             <form id="question_form">
+<<<<<<< HEAD
                                 <!-- <div>Select Stack: <select required>
+=======
+                                <div>Select Stack: <select required>
+>>>>>>> 46f66ab91c2b958788ff643561df2e52096ab80b
                                     <option name="Java">Java</option>
                                     <option name="Python">Python</option>
                                     <option name="HTML/CSS/JS">HTML</option>
                                     <option name="RUBY">Ruby</option>
                                     <option name="C++">C++</option>
+<<<<<<< HEAD
                                 </select></div><br> -->
                                 <div>Question Title: <input type="text" id="question_title" name="question_title" required></div><br>
+=======
+                                </select></div><br>
+                                <div>Question Title: <input type="text" id="question_title" name="question" required></div><br>
+>>>>>>> 46f66ab91c2b958788ff643561df2e52096ab80b
                                 <div>Description:<br>  <textarea id="description" rows="15" cols="30" required></textarea></div><br>
                                 <div class="sub"><input type="submit" value="Submit"></div>
                             </form>
@@ -43,8 +52,14 @@
 
         function addQuestion(e) {
             e.preventDefault();
+<<<<<<< HEAD
             let description = document.getElementById('description').value;
             let question_title = document.getElementsByName('question_title').
+=======
+
+            let question = document.getElementById('question_title').value;
+            let description = document.getElementById('description').value;
+>>>>>>> 46f66ab91c2b958788ff643561df2e52096ab80b
             let token = localStorage.getItem("token")
             if (token = null) {
                 redirect: window.location.replace("login.html");
@@ -57,8 +72,12 @@
                         'Content-type': 'application/json',
                         'x-access-token': `${localStorage.getItem("token")}`
                     },
+<<<<<<< HEAD
                     body: JSON.stringify({ question_title:question_title, description:description})
 
+=======
+                    body: JSON.stringify({ question_title:question, description:description})
+>>>>>>> 46f66ab91c2b958788ff643561df2e52096ab80b
                 })
                 .then((res) => res.json())
                 .then((data) => {
