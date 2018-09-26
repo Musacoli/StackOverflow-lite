@@ -105,7 +105,7 @@ class TestForEndpoints(unittest.TestCase):
         self.assertEqual(res.status_code, 400)
 
     """def test_for_adding_questions(self):
-        res = self.client.post('/questions', data=json.dumps({"title": self.generate.question, "description":"I got it from a forum"}), headers={'x-access-token' : self.token}, content_type="application/json")
+        res = self.client.post('/questions', data=json.dumps({"title": self.generate.question, "description":"I got it from a forum"}), headers={'x-access-token' : str(self.token)}, content_type="application/json")
         self.assertEqual(res.status_code, 201)
 
     def test_for_viewing_all_questions_users_asked(self):

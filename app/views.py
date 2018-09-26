@@ -5,8 +5,10 @@ from passlib.hash import sha256_crypt
 import jwt
 import datetime
 from functools import wraps
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 
 app.config["SECRET_KEY"] = 'thisisstackoverflowlite'
 
@@ -74,7 +76,8 @@ def login_a_user():
         if username in database.extract_all_users().keys():
             if sha256_crypt.verify(password, database.extract_all_users()[username]["password"]):
                 token = jwt.encode({'username': username, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
-                return make_response(jsonify({'status':0, 'message':'Logged in successfully as: %s'% (username),'token': token.decode('UTF-8')})), 200
+                user_data = database.extract_all_users()[username]
+                return make_response(jsonify({'status':0, 'message':'Logged in successfully as: %s'% (username),'records': user_data,'token': token.decode('UTF-8')})), 200
             else:
                 return make_response(jsonify({"status":-1, "message":"Password is incorrect, try again"})), 400
         else:
