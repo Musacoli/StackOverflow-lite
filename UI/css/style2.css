@@ -26,7 +26,7 @@
  }
 .flex-container4 {
      display: flex;
-     background-color: #C9C9C9;
+     background-color: rgb(20, 20, 20);
      height: 30em;
      flex-flow: column wrap;
      padding: 10px;
@@ -61,11 +61,14 @@
  }
 
  .r1 {
-     background-color: rgba(0, 166, 255, 0.253);
+     background-color: rgba(0, 89, 255, 0.952);
      height: 20%;
-     text-align: center;
+     text-align: left;
      padding: 3px;
      color: white;
+     margin-bottom: 3px;
+     font-family: 'Exo', sans-serif;
+     border-radius: 10px;
  }
  .r2 {
      display: flex;
@@ -207,6 +210,25 @@
     flex-flow: column wrap;
     background-color: rgba(255, 255, 255, 0.644);
     border-radius: 10px;
+}
+
+.row2 > div {
+    display: flex;
+    flex-flow: column wrap;
+    height: 30%;
+}
+
+#user_questions {
+    display: flex;
+    flex-flow: column wrap;
+    text-align: left;
+}
+
+#user_questions > div {
+    display: flex;
+    flex-flow: column wrap;
+    height: 30%;
+    text-align: left;
 }
 .cl {
     display: flex;
@@ -355,3 +377,20 @@
      font-size: 2em;
      padding: 0em;
  }
+
+ .view {
+    align-self: center;
+    align-content: space-around;
+    width: 100%;
+    font-family: 'Exo', sans-serif;
+    font-size: 2em;
+    background-color: orange;
+    color: white;
+}
+
+.view:hover {
+    box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+    color: black;
+    background-color: rgb(165, 17, 17);
+    cursor: pointer;
+}

@@ -14,47 +14,83 @@
                         <div><a href="../../index.html" ><img src="../images/stack-logo.png" alt="Stack Overflow Lite Logo" class="logo"></a></div>
                         <div><h1 class="hed1">Stack Overflow Lite</h1></div>
                         <div><input type="text" placeholder="Search ..."></div>
-                        <div><a href="../../index.html"><button type="button" class="reg" >COMMUNITY</button></a></div>
+                        <div><a href="profile.html"><button type="button" class="reg" >PROFILE</button></a></div>
                         <div><a href="#"><button type="button" class="log">LOG OUT</button></a></div>
                     </div>
                     <div class="flex-container3">
                         <div class="suform">
                             <div><h1>Question Form</h1></div>
                             <div>
-                            <form>
-                                <div>Select Stack: <select required>
+                            <form id="question_form">
+                                <!-- <div>Select Stack: <select required>
                                     <option name="Java">Java</option>
                                     <option name="Python">Python</option>
                                     <option name="HTML/CSS/JS">HTML</option>
                                     <option name="RUBY">Ruby</option>
                                     <option name="C++">C++</option>
-                                </select></div><br>
-                                <div>Question Title: <input type="text" name="question" required></div><br>
-                                <div>Description:<br>  <textarea rows="15" cols="30" required></textarea></div><br>
-                                <div class="sub"><input type="submit" value="Submit" formaction="q_a_page.html"></div>
+                                </select></div><br> -->
+                                <div>Question Title: <input type="text" id="question_title" name="question_title" required></div><br>
+                                <div>Description:<br>  <textarea id="description" rows="15" cols="30" required></textarea></div><br>
+                                <div class="sub"><input type="submit" value="Submit"></div>
                             </form>
                         </div>
                         </div>
                     </div>
             </div>
-                   <footer>
-                        <div class="footer-container">
-                                <div>
-                                        <a href="../../index.html"><h1>COMMUNITY</h1></a>
-                                    </div>
-                                    <div>
-                                        <a href="profile.html"><h1>PROFILE</h1></a>
-                                    </div>
-                                    <div>
-                                            <a href="../../index.html"><h1>FAQs</h1></a>
-                                        </div>
-                                    <div>
-                                        <a href="#"><h1>ABOUT US</h1></a>
-                                    </div>
-                                    <div>
-                                        <a href="#"><h1>CONTACT US</h1></a>
-                                    </div>
-                        </div>
-                   </footer>
     </body>
+    <script>
+        document.getElementById('question_form').addEventListener('submit', addQuestion);
+
+        function addQuestion(e) {
+            e.preventDefault();
+            let description = document.getElementById('description').value;
+            let question_title = document.getElementsByName('question_title').
+            let token = localStorage.getItem("token")
+            if (token = null) {
+                redirect: window.location.replace("login.html");
+            } else {            
+                fetch('https://stackoverflow-lite-collo.herokuapp.com/questions', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-type': 'application/json',
+                        'x-access-token': `${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify({ question_title:question_title, description:description})
+
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data['status'] == 0 ) {
+                        alert(Object.values(data['message']));
+                        redirect: window.location.replace("profile.html");
+                    }
+                    else {
+                        alert(Object.values(data['message']));
+                    }
+            });
+            }
+        }
+    </script> 
+    <footer>
+        <div class="footer-container">
+                <div>
+                        <a href="../../index.html"><h1>COMMUNITY</h1></a>
+                    </div>
+                    <div>
+                        <a href="profile.html"><h1>PROFILE</h1></a>
+                    </div>
+                    <div>
+                            <a href="../../index.html"><h1>FAQs</h1></a>
+                        </div>
+                    <div>
+                        <a href="#"><h1>ABOUT US</h1></a>
+                    </div>
+                    <div>
+                        <a href="#"><h1>CONTACT US</h1></a>
+                    </div>
+        </div>
+   </footer>
 </html>

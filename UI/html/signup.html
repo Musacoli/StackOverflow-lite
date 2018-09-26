@@ -20,24 +20,58 @@
             <div class="suform">
                 <div><h2>SIGN UP PAGE</h2></div>
                 <div>
-                    <form>
-                        <div>First Name: <input type="text" name="First name" required></div><br>
-                        <div>Surname: <input type="text" name="Surname" required></div><br>
-                        <div>Username: <input type="text" name="Username" required></div><br>
-                        <div>Email: <input type="email" name="email" required></div><br>
-                        <div>Confirm Email: <input type="email" name="confirm_email" required></div><br>
-                        <div>Password: <input type="password" name="passw" required></div><br>
-                        <div>Confirm Password: <input type="password" name="confirm_passw" required></div><br>
-                        <div>Preferred Stack: <input type="radio" name="Python" required>Python
+                    <form id='signup_form'>
+                        <div>First Name: <input type="text" id="firstname" name="First name" required></div><br>
+                        <div>Surname: <input type="text" id="surname" name="Surname" required></div><br>
+                        <div>Username: <input type="text" id="username" name="Username" required></div><br>
+                        <div>Email: <input type="email" id="email" name="email" required></div><br>
+                        <div>Confirm Email: <input type="email" id="cemail" name="confirm_email" required></div><br>
+                        <div>Password: <input type="password" id="password" name="passw" required></div><br>
+                        <div>Confirm Password: <input type="password" id="cpassword" name="confirm_passw" required></div><br>
+                        <div>Preferred Stack: <input type="radio" id="stack" name="Python" required>Python
                         <input type="radio" name="CSS" >CSS
                         <input type="radio" name="Ruby" >Ruby</div><br>
                         <div><input type="checkbox" name="agree" required>Agree to Our Terms and Conditions</div><br>
-                        <div><input class="log1" type="submit" formaction="login.html" value="Register"></div>
+                        <div><input class="log1" id="submit" type="submit" formaction="login.html" value="Register"></div>
                     </form>
                 </div>
             </div>
         </div>
-       </div>  
+       </div>
+       <script>
+           document.getElementById('signup_form').addEventListener('submit', signUp);
+
+           function signUp(e) {
+               e.preventDefault();
+
+               let firstname = document.getElementById('firstname').value;
+               let surname = document.getElementById('surname').value;
+               let username = document.getElementById('username').value;
+               let email = document.getElementById('email').value;
+               let cemail = document.getElementById('cemail').value;
+               let password = document.getElementById('password').value;
+               let cpassword = document.getElementById('cpassword').value;
+
+               fetch('https://stackoverflow-lite-collo.herokuapp.com/signup', {
+                   method: 'POST',
+                   headers: {
+                       'Accept': 'application/json, text/plain, */*',
+                       'Content-type': 'application/json'
+                   },
+                   body: JSON.stringify({username:username, firstname:firstname, surname:surname, email:email, password:password})
+               })
+               .then((res) => res.json())
+               .then((data) => {
+                   console.log(data);
+                   if (data['status'] == 1) {
+                       alert(Object.values(data['records']))
+                       redirect: window.location.replace("login.html")
+                   } else {
+                       alert(Object.values(data['message']))
+                   }
+           });
+           }
+       </script> 
     </body>
     <footer>
             <div class="footer-container">
