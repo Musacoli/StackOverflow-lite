@@ -107,7 +107,11 @@
             if (token = null) {
                 redirect: window.location.replace("login.html");
             } else {
+<<<<<<< HEAD
                 fetch('https://stackoverflow-lite-collo.herokuapp.com/auth/user/questions', {
+=======
+                fetch('http://127.0.0.1:5000/auth/user/questions', {
+>>>>>>> 820f4501a78258999d7daf44736dbeb34722aa3a
                     method: 'GET',
                     mode: 'cors',
                     headers: {
