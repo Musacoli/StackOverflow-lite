@@ -20,15 +20,51 @@
                         <div class="suform">
                             <div><h1>LOGIN PAGE</h1></div>
                                 <div>
-                                    <form>
-                                        <div>Username: <input type="text" name="Username" required ></div><br>
-                                        <div>Password: <input type="password" name="passw"  required></div><br>
-                                        <div><a href="profile.html"><input type="submit" value='LOGIN' formaction="profile.html" ></a></div>
+                                    <form id="login_form">
+                                        <div>Username: <input type="text" id="username" name="Username" required ></div><br>
+                                        <div>Password: <input type="password" id="password" name="passw"  required></div><br>
+                                        <div><a href="profile.html"><input type="submit" value='LOGIN' formaction="#top" ></a></div>
                                     </form>
                                 </div>
                             </div>
                 </div>
             </div>
+            <script>
+                document.getElementById('login_form').addEventListener('submit', login);
+     
+                function login(e) {
+                    e.preventDefault();
+     
+                    let username = document.getElementById('username').value;
+                    let password = document.getElementById('password').value;
+     
+                    fetch('https://stackoverflow-lite-collo.herokuapp.com/auth/login', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-type': 'application/json'
+                        },
+                        body: JSON.stringify({username:username, password:password})
+                    })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        console.log(data['token'])
+                        if (data['status'] == 0 ) {
+                            alert(Object.values(data['message']));
+                            localStorage.setItem("token", data['token'])
+                            localStorage.setItem("firstname", data['records']['firstname'])
+                            localStorage.setItem("surname", data['records']['surname'])
+                            localStorage.setItem("email", data['records']['email'])
+                            localStorage.setItem("username", username)
+                            redirect: window.location.replace("profile.html");
+                        }
+                        else {
+                            alert(Object.values(data['message']));
+                        }
+                });
+                }
+            </script> 
     </body>
     <footer>
             <div class="footer-container">

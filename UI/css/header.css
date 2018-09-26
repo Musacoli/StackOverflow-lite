@@ -104,3 +104,20 @@
      font-size: 2em;
      padding: 0em;
  }
+
+ .view {
+     align-self: center;
+     align-content: space-around;
+     width: 100%;
+     font-family: 'Exo', sans-serif;
+     font-size: 2em;
+     background-color: orange;
+     color: white;
+ }
+
+ .view:hover {
+     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+     color: black;
+     background-color: rgb(165, 17, 17);
+     cursor: pointer;
+ }

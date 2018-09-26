@@ -1,0 +1,23 @@
+{
+  "name": "stackoverflowliteweb",
+  "version": "1.0.0",
+  "description": "test app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Musacoli/StackOverflow-lite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Musacoli/StackOverflow-lite/issues"
+  },
+  "homepage": "https://github.com/Musacoli/StackOverflow-lite#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
