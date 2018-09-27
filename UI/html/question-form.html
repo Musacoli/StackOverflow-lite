@@ -29,7 +29,7 @@
                                     <option name="RUBY">Ruby</option>
                                     <option name="C++">C++</option>
                                 </select></div><br> -->
-                                <div>Question Title: <input type="text" id="question_title" name="question_title" required></div><br>
+                                <div>Question Title:<br> <textarea id="question_title" rows="2" cols="30" required></textarea></div><br>
                                 <div>Description:<br>  <textarea id="description" rows="15" cols="30" required></textarea></div><br>
                                 <div class="sub"><input type="submit" value="Submit"></div>
                             </form>
@@ -40,15 +40,17 @@
     </body>
     <script>
         document.getElementById('question_form').addEventListener('submit', addQuestion);
-
+        
         function addQuestion(e) {
             e.preventDefault();
+
+            let title = document.getElementById('question_title').value;
             let description = document.getElementById('description').value;
-            let question_title = document.getElementsByName('question_title').
-            let token = localStorage.getItem("token")
+            let token = localStorage.getItem('token');
+
             if (token = null) {
-                redirect: window.location.replace("login.html");
-            } else {            
+                redirect: window.location.replace('login.html');
+            } else { 
                 fetch('https://stackoverflow-lite-collo.herokuapp.com/questions', {
                     method: 'POST',
                     mode: 'cors',
@@ -57,14 +59,15 @@
                         'Content-type': 'application/json',
                         'x-access-token': `${localStorage.getItem("token")}`
                     },
-                    body: JSON.stringify({ question_title:question_title, description:description})
+                    body: JSON.stringify({ title:title, description:description})
 
                 })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log(data);
-                    if (data['status'] == 0 ) {
+                    if (data['status'] == 1 ) {
                         alert(Object.values(data['message']));
+                        localStorage.setItem("question", data['records'][''])
                         redirect: window.location.replace("profile.html");
                     }
                     else {

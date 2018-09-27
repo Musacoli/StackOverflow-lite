@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NEW QUESTION</title>
+        <title>NEW ANSWER</title>
         <link href="../css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
@@ -21,33 +21,71 @@
                         <div class="suform">
                             <div><h1>Answer Form</h1></div>
                             <div>
-                            <form>
-                                <div>Title:<br> <input type="text" name="Title" readonly></div><br>
-                                <div>Description:<br>  <textarea rows="15" cols="30" required></textarea></div><br>
+                            <form id="answer_form" >
+                                <div>Title:<br> <input type="text" id="answer_title" name="Title" readonly></div><br>
+                                <div>Description:<br>  <textarea id="description" rows="15" cols="30" required></textarea></div><br>
                                 <div class="sub"><input type="submit" value="Submit" formaction="q_a_page.html"></div>
                             </form>
                         </div>
                         </div>
                     </div>
             </div>
-                   <footer>
-                        <div class="footer-container">
-                                <div>
-                                        <a href="../../index.html"><h1>COMMUNITY</h1></a>
-                                    </div>
-                                    <div>
-                                        <a href="profile.html"><h1>PROFILE</h1></a>
-                                    </div>
-                                    <div>
-                                            <a href="../../index.html"><h1>FAQs</h1></a>
-                                        </div>
-                                    <div>
-                                        <a href="#"><h1>ABOUT US</h1></a>
-                                    </div>
-                                    <div>
-                                        <a href="#"><h1>CONTACT US</h1></a>
-                                    </div>
-                        </div>
-                   </footer>
     </body>
+    <script>
+        document.getElementById('answer_form').addEventListener('submit', addAnswer);
+        
+        function addAnswer(e) {
+            e.preventDefault();
+
+            let title = document.getElementById('answer_title').value;
+            let description = document.getElementById('description').value;
+            let token = localStorage.getItem('token');
+
+            if (token = null) {
+                redirect: window.location.replace('login.html');
+            } else { 
+                fetch('https://stackoverflow-lite-collo.herokuapp.com/questions/<question_id>/answers', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-type': 'application/json',
+                        'x-access-token': `${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify({ title:title, description:description})
+
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    if (data['status'] == 1 ) {
+                        alert(Object.values(data['message']));
+                        redirect: window.location.replace("profile.html");
+                    }
+                    else {
+                        alert(Object.values(data['message']));
+                    }
+            });
+            }
+        }
+    </script>
+    <footer>
+        <div class="footer-container">
+                <div>
+                        <a href="../../index.html"><h1>COMMUNITY</h1></a>
+                    </div>
+                    <div>
+                        <a href="profile.html"><h1>PROFILE</h1></a>
+                    </div>
+                    <div>
+                            <a href="../../index.html"><h1>FAQs</h1></a>
+                        </div>
+                    <div>
+                        <a href="#"><h1>ABOUT US</h1></a>
+                    </div>
+                    <div>
+                        <a href="#"><h1>CONTACT US</h1></a>
+                    </div>
+        </div>
+   </footer> 
 </html>
