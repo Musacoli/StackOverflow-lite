@@ -43,6 +43,10 @@
      font-family: 'Exo', sans-serif;
  }
 
+ .flex-container4 > div .row2{
+     height: 20%;
+ }
+
  .flex-container5 {
      display: flex;
      background-color: #C9C9C9;
@@ -215,7 +219,8 @@
 .row2 > div {
     display: flex;
     flex-flow: column wrap;
-    height: 30%;
+    height: 33%;
+    justify-content: stretch;
 }
 
 #user_questions {
@@ -390,7 +395,7 @@
 
 .view:hover {
     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
-    color: black;
-    background-color: rgb(165, 17, 17);
+    color: rgb(180, 174, 174);
+    background-color: rgb(5, 5, 5);
     cursor: pointer;
 }

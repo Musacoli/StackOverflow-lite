@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>HOME</title>
+        <link rel="icon" type="image/ico" href="UI/images/stack-logo.png" />
         <link href="UI/css/header.css" rel="stylesheet" type="text/css">
         <link href="UI/css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
@@ -37,8 +38,6 @@
                             console.log(data);
                             let output = '<h3>Questions</h3>';
                             Object.values(data['records']).forEach(function(question){
-                                let qid = 0
-                                qid++
                                 output += `
                                     <div class="r1">
                                         <h1>Question</h1>

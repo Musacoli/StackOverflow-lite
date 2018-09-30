@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>LOGIN</title>
+        <link rel="icon" type="image/ico" href="../images/stack-logo.png" />
         <link href="../css/style1.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
@@ -48,8 +49,6 @@
                     })
                     .then((res) => res.json())
                     .then((data) => {
-                        console.log(data);
-                        console.log(data['token'])
                         if (data['status'] == 0 ) {
                             alert(Object.values(data['message']));
                             localStorage.setItem("token", data['token'])

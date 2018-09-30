@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>NEW QUESTION</title>
+        <link rel="icon" type="image/ico" href="../images/stack-logo.png" />
         <link href="../css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
@@ -15,7 +16,7 @@
                         <div><h1 class="hed1">Stack Overflow Lite</h1></div>
                         <div><input type="text" placeholder="Search ..."></div>
                         <div><a href="profile.html"><button type="button" class="reg" >PROFILE</button></a></div>
-                        <div><a href="#"><button type="button" class="log">LOG OUT</button></a></div>
+                        <div><a href="login.html"><button type="button" class="log">LOG OUT</button></a></div>
                     </div>
                     <div class="flex-container3">
                         <div class="suform">
@@ -67,8 +68,10 @@
                     console.log(data);
                     if (data['status'] == 1 ) {
                         alert(Object.values(data['message']));
-                        localStorage.setItem("question", data['records'][''])
-                        redirect: window.location.replace("profile.html");
+                        localStorage.setItem("question", title)
+                        localStorage.setItem("description", description)
+                        localStorage.setItem("qid", Object.keys(data['records']));
+                        redirect: window.location.replace("new_question.html");
                     }
                     else {
                         alert(Object.values(data['message']));

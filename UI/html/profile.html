@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>PROFILE</title>
+        <link rel="icon" type="image/ico" href="../images/stack-logo.png" />
         <link href="../css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
@@ -68,11 +69,11 @@
                 </div>
                 <div class="row2" >
                     <div class="ched"><h1>Questions Asked</h1></div>
-                    <div><a href="q_a_page.html"><h2>Sample Question.</h2></a></div>
-                    <div id="user_questions"><button id='view_questions' class="view">View All Users Questions</button>
-                    </div>
+                    <div><a href="q_a_page.html"><button class="view">Sample Question.</button></a></div>
+                    <div><button id='view_questions' class="view">View All Users Questions</button></div>
                 </div>
                 </div>
+                <div id="user_questions"></div>
                 <!-- <div class="bgpic"><h2>WELCOME TO STACK OVERFLOW LITE</h2></div> -->
             </div>
         
@@ -121,11 +122,13 @@
                     console.log(data);
                     let output
                     Object.values(data['records']).forEach(function(question){
-                        output = `
+                        output += `
+                            <div class="r1">
                                 <h3>Title: ${question.title}</h3>
                                 <br>Description: ${question.description}
                                 <br>Time: ${question.post_time}
                                 <br>Posted By: ${question.username}
+                            </div>
                         `;
                     });
                     

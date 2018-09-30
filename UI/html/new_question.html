@@ -8,7 +8,7 @@
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
 
     </head>
-    <body>
+    <body onload="newQuestion()">
         <div class="flex-container">
             <div><a href="../../index.html" ><img src="../images/stack-logo.png" alt="Stack Overflow Lite Logo" class="logo"></a></div>
             <div><h1 class="hed1">Stack Overflow Lite</h1></div>
@@ -18,7 +18,7 @@
         </div>
         <div class="flex-container5">
             <div class="r1">
-                <h1>Question : <h3 id=""></h3> </h1>
+                <h1>QUESTION : <h3 id="question"></h3></h1>
             </div>
             <div class="r2">
                 <div class="r31">
@@ -34,12 +34,45 @@
                     <a href="answer-form.html"><button class="log1">Add Answer</button></a>
                 </div>
                 <div>
-                    
                 </div>
             </div>
 
         </div>
     </body>
+    <script>
+        document.getElementById('question').addEventListener('onload', newQuestion)
+
+        function newQuestion() {
+
+            let question = localStorage.getItem('question');
+            let description = localStorage.getItem('description');
+            let qid = localStorage.getItem('qid');
+            let token = localStorage.getItem('token');
+
+            if (token = null) {
+                redirect: window.location.replace('login.html')
+            } else {
+                fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}`, 
+                {
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-type': 'application/json',
+                        'x-access-token': `${localStorage.getItem("token")}`
+                    }
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data['status'] == 0 ) {
+                        console.log(data);
+                        // let output = '<h1>Question: </h1>'
+                        // let output = `<h2>${question}</h2>`;
+                    }
+                });
+                document.getElementById('question').innerHTML = question;
+            }
+        }
+    </script>
     <footer>
             <div class="footer-container">
                     <div>

@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>NEW ANSWER</title>
+        <link rel="icon" type="image/ico" href="../images/stack-logo.png" />
         <link href="../css/style2.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Exo:600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
@@ -14,15 +15,15 @@
                         <div><a href="../../index.html" ><img src="../images/stack-logo.png" alt="Stack Overflow Lite Logo" class="logo"></a></div>
                         <div><h1 class="hed1">Stack Overflow Lite</h1></div>
                         <div><input type="text" placeholder="Search ..."></div>
-                        <div><a href="../../index.html"><button type="button" class="reg" >COMMUNITY</button></a></div>
-                        <div><a href="#"><button type="button" class="log">LOG OUT</button></a></div>
+                        <div><a href="profile.html"><button type="button" class="reg" >PROFILE</button></a></div>
+                        <div><a href="login.html"><button type="button" class="log">LOG OUT</button></a></div>
                     </div>
                     <div class="flex-container3">
                         <div class="suform">
                             <div><h1>Answer Form</h1></div>
                             <div>
                             <form id="answer_form" >
-                                <div>Title:<br> <input type="text" id="answer_title" name="Title" readonly></div><br>
+                                <div>Title:<br> <input type="text" id="answer_title" name="Title" required></div><br>
                                 <div>Description:<br>  <textarea id="description" rows="15" cols="30" required></textarea></div><br>
                                 <div class="sub"><input type="submit" value="Submit" formaction="q_a_page.html"></div>
                             </form>
@@ -39,12 +40,13 @@
 
             let title = document.getElementById('answer_title').value;
             let description = document.getElementById('description').value;
+            let qid = localStorage.getItem('qid');
             let token = localStorage.getItem('token');
 
             if (token = null) {
                 redirect: window.location.replace('login.html');
             } else { 
-                fetch('https://stackoverflow-lite-collo.herokuapp.com/questions/<question_id>/answers', {
+                fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}/answers`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: {
@@ -60,7 +62,7 @@
                     console.log(data);
                     if (data['status'] == 1 ) {
                         alert(Object.values(data['message']));
-                        redirect: window.location.replace("profile.html");
+                        redirect: window.location.replace("q_a_page.html");
                     }
                     else {
                         alert(Object.values(data['message']));
