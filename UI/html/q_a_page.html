@@ -8,7 +8,7 @@
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
 
     </head>
-    <body>
+    <body onload="Question()">
         <div class="flex-container">
             <div><a href="../../index.html" ><img src="../images/stack-logo.png" alt="Stack Overflow Lite Logo" class="logo"></a></div>
             <div><h1 class="hed1">Stack Overflow Lite</h1></div>
@@ -17,29 +17,104 @@
             <div><a href="login.html"><button type="button" class="log">LOG OUT</button></a></div>
         </div>
         <div class="flex-container5">
-            <div class="r1">
-                <h1>Question : <h3 id=""></h3> </h1>
+            <div id="question" class="r1">
             </div>
             <div class="r2">
                 <div class="r31">
-                    <h2>Best Answer: </h2>
+                    <h2>Best Answer: <h3 id="best_answer"></h3> </h2>
                     <a href="#"><button class="log1 lg1">Upvote</button></a>
                     <a href="#"><button class="log1 lg2">Downvote</button></a>
                 </div>
             </div>
-            <div class="r3">
-                <div class="r31">
-                    <h1>Answers: </h1>
-                    <a href="comment-form.html"><button class="log1">Add Comment</button></a>
-                    <a href="answer-form.html"><button class="log1">Add Answer</button></a>
-                </div>
-                <div>
-                    
-                </div>
+            <div id="answers" class="r3">
             </div>
-
         </div>
+        
     </body>
+    <script>
+            document.getElementById('question').addEventListener('onload', Question)
+            document.getElementById('answers').addEventListener('onload', Question)
+            document.getElementById('set_answer').addEventListener('click', setAnswer)
+    
+            function Question() {
+    
+                let qid = localStorage.getItem('qid');
+                let token = localStorage.getItem('token');
+    
+                if (token = null) {
+                    redirect: window.location.replace('login.html')
+                } else {
+                    fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}`, 
+                    {
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'application/json, text/plain, */*',
+                            'Content-type': 'application/json',
+                            'x-access-token': `${localStorage.getItem("token")}`
+                        }
+                    })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data['status'] == 0 ) {
+                            console.log(data);
+                            let output = '<h3>Answers</h3>';
+                            Object.values(data['records'][2]).forEach(function(answers){
+                                output += `
+                                    <div class="r31">
+                                        <h2>Answer: </h2>
+                                        <a href="comment-form.html"><button class="log1">Add Comment</button></a>
+                                        <button class="log1" id="set_answer">Select Answer</button>
+                                    </div>
+                                    <div>
+                                        <h3>Title: ${answers.title}</h3>
+                                        <p>Description: ${answers.description}</p>
+                                        <br>Time: ${answers.post_time}
+                                        <br>Posted By: ${answers.username}
+                                    </div>
+                                `;
+                            // let output2 = '<h3>Question</h3>';
+                            let question = data['records'][0]
+                                let output2 = `
+                                        <h3>Title: ${question.question_title}</h3>
+                                        <p>Description: ${question.description}</p>
+                                        <br>Time: ${question.post_time}
+                                        <br>Posted By: ${question.username}
+                                `;
+                                document.getElementById('question').innerHTML = output2;
+                            });
+                        document.getElementById('answers').innerHTML = output;
+                        
+                        }
+                    });
+                    
+                    
+                }
+            }
+
+                function setAnswer() {
+
+                    let token = localStorage.getItem('token');
+    
+                    if (token = null) {
+                        redirect: window.location.replace('login.html')
+                    } else {
+                        fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}/answers/${aid}`, 
+                        {
+                            mode: 'cors',
+                            method: 'PUT',
+                            headers: {
+                                'Accept': 'application/json, text/plain, */*',
+                                'Content-type': 'application/json',
+                                'x-access-token': `${localStorage.getItem("token")}`
+                            }
+                        })
+                        .then((res) => res.json())
+                        .then ((data) => {
+                            console.log(data);
+                        })
+
+                }
+        </script>
     <footer>
             <div class="footer-container">
                     <div>

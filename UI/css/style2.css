@@ -50,7 +50,7 @@
  .flex-container5 {
      display: flex;
      background-color: #C9C9C9;
-     height: 30em;
+     /* height: 1200px; */
      flex-flow: column wrap;
      justify-content: space-between;
      font-family: 'Exo', sans-serif;
@@ -62,22 +62,24 @@
      width: 100%;
      font-family: 'Exo', sans-serif;
      border-radius: 10px;
+     margin-bottom: 5px;
  }
 
  .r1 {
      background-color: rgba(0, 89, 255, 0.952);
-     height: 20%;
+     /* height: 200px; */
      text-align: left;
      padding: 3px;
      color: white;
      margin-bottom: 3px;
      font-family: 'Exo', sans-serif;
      border-radius: 10px;
+     flex-flow: row wrap;
  }
  .r2 {
      display: flex;
-     background-color: rgba(255, 187, 0, 0.52);
-     height: 30%;
+     background-color: rgba(15, 15, 15, 0.856);
+     height: 150px;
      text-align: center;
      padding: 3px;
      flex-flow: column wrap;
@@ -92,12 +94,12 @@
 
  .r3 {
      display: flex;
-     background-color: rgba(255, 255, 255, 0.493);
-     height: 45%;
+     background-color: rgba(15, 15, 15, 0.856);
      text-align: center;
      padding: 3px;
      color: white;
      flex-flow: column wrap;
+     flex-grow: 1;
  }
 
  .r3 > div {
