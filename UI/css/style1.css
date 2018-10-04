@@ -151,6 +151,7 @@
     height: 10em;
     align-content: flex-end;
     color: black;
+    bottom: 0;
  }
 
  .bgpic {
@@ -164,3 +165,8 @@
      font-size: 2em;
      padding: 0em;
  }
+
+ .footer {
+    bottom: 0;
+    position: fixed;
+}

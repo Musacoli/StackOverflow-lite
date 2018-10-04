@@ -83,6 +83,10 @@
      padding: 3px;
  } 
 
+ .footer {
+     bottom: 0;
+     position: fixed;
+ }
  .footer-container {
      display: flex;
      justify-content: space-between;
@@ -91,6 +95,7 @@
      height: 10em;
      align-content: flex-end;
      color: black;
+     bottom: 0;
  }
 
  .bgpic {

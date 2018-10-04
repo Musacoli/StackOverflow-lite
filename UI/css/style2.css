@@ -66,8 +66,8 @@
  }
 
  .r1 {
-     background-color: rgba(0, 89, 255, 0.952);
-     /* height: 200px; */
+     background-color: rgba(15, 15, 15, 0.856);
+     height: 200px;
      text-align: left;
      padding: 3px;
      color: white;
@@ -94,6 +94,7 @@
 
  .r3 {
      display: flex;
+     height: 500px;
      background-color: rgba(15, 15, 15, 0.856);
      text-align: center;
      padding: 3px;
@@ -214,7 +215,7 @@
 .row2 {
     display: flex;
     flex-flow: column wrap;
-    background-color: rgba(255, 255, 255, 0.644);
+    background-color: rgba(0, 166, 255, 0.905);
     border-radius: 10px;
 }
 
@@ -371,6 +372,7 @@
     height: 10em;
     align-content: flex-end;
     color: black;
+    bottom: 0;
  }
 
  .bgpic {
@@ -400,4 +402,9 @@
     color: rgb(180, 174, 174);
     background-color: rgb(5, 5, 5);
     cursor: pointer;
+}
+
+.footer {
+    bottom: 0;
+    position: fixed;
 }
