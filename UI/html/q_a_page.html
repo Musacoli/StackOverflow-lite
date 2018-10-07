@@ -8,7 +8,7 @@
         <link href="https://fonts.googleapis.com/css?family=Istok+Web:400,700i" rel="stylesheet">
 
     </head>
-    <body onload="Question()">
+    <body onload="getQuestion()">
         <div class="flex-container">
             <div><a href="../../index.html" ><img src="../images/stack-logo.png" alt="Stack Overflow Lite Logo" class="logo"></a></div>
             <div><h1 class="hed1">Stack Overflow Lite</h1></div>
@@ -32,11 +32,11 @@
         
     </body>
     <script>
-            document.getElementById('question').addEventListener('onload', Question)
+            document.getElementById('question').addEventListener('onload', getQuestion)
             document.getElementById('answers').addEventListener('onload', Question)
-            document.getElementById('set_answer').addEventListener('click', setAnswer)
+            // document.getElementById('set_answer').addEventListener('click', setAnswer)
     
-            function Question() {
+            function getQuestion() {
     
                 let qid = localStorage.getItem('qid');
                 let token = localStorage.getItem('token');
@@ -87,33 +87,53 @@
                         }
                     });
                     
-                    
+                    // fetch(`https://stackoverflow-lite-collo.herokuapp.com/auth/user/questions`, 
+                    // {
+                    //     mode: 'cors',
+                    //     headers: {
+                    //         'Accept': 'application/json, text/plain, */*',
+                    //         'Content-type': 'application/json',
+                    //         'x-access-token': `${localStorage.getItem("token")}`
+                    //     }
+                    // })
+                    // .then((res) => res.json())
+                    // .then((data) => {
+                    //     if (data['status'] == 0) {
+                    //         console.log(data);
+                    //         let question = data['records']
+                    //             let output2 = `
+                    //                     <h3>Title: ${question.title}</h3>
+                    //                     <p>Description: ${question.description}</p>
+                    //                     <br>Time: ${question.post_time}
+                    //                     <br>Posted By: ${question.username}
+                    //             `;
+                    //             document.getElementById('question').innerHTML = output2;
+                    //     }
+                    // });
                 }
             }
+                // function setAnswer() {
 
-                function setAnswer() {
-
-                    let token = localStorage.getItem('token');
+                //     let token = localStorage.getItem('token');
     
-                    if (token = null) {
-                        redirect: window.location.replace('login.html')
-                    } else {
-                        fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}/answers/${aid}`, 
-                        {
-                            mode: 'cors',
-                            method: 'PUT',
-                            headers: {
-                                'Accept': 'application/json, text/plain, */*',
-                                'Content-type': 'application/json',
-                                'x-access-token': `${localStorage.getItem("token")}`
-                            }
-                        })
-                        .then((res) => res.json())
-                        .then ((data) => {
-                            console.log(data);
-                        })
-
-                }
+                //     if (token = null) {
+                //         redirect: window.location.replace('login.html')
+                //     } else {
+                //         fetch(`https://stackoverflow-lite-collo.herokuapp.com/questions/${qid}/answers/${aid}`, 
+                //         {
+                //             mode: 'cors',
+                //             method: 'PUT',
+                //             headers: {
+                //                 'Accept': 'application/json, text/plain, */*',
+                //                 'Content-type': 'application/json',
+                //                 'x-access-token': `${localStorage.getItem("token")}`
+                //             }
+                //         })
+                //         .then((res) => res.json())
+                //         .then ((data) => {
+                //             console.log(data);
+                //         })
+                // };
         </script>
     <footer>
             <div class="footer-container">
