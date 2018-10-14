@@ -226,6 +226,21 @@
     justify-content: stretch;
 }
 
+.row21 {
+    display: flex;
+    flex-flow: column wrap;
+    height: 100px;
+    background-color: rgba(0, 166, 255, 0.905);
+    border-radius: 10px;
+}
+
+.row21 > div {
+    display: flex;
+    flex-flow: column wrap;
+    height: 80px;
+    justify-content: stretch;
+}
+
 #user_questions {
     display: flex;
     flex-flow: column wrap;
@@ -401,6 +416,23 @@
     box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
     color: rgb(180, 174, 174);
     background-color: rgb(5, 5, 5);
+    cursor: pointer;
+}
+
+.view1 {
+    align-self: center;
+    align-content: space-around;
+    width: 100%;
+    font-family: 'Exo', sans-serif;
+    font-size: 2em;
+    background-color: rgba(0, 166, 255, 0.905);
+    color: white;
+}
+
+.view1:hover {
+    box-shadow: -2px 4px 7px 1px rgba(0,0,0,0.44);
+    color: black;
+    background-color: white;
     cursor: pointer;
 }
 
