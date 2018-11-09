@@ -126,27 +126,41 @@ def view_a_question(questionid):
         except:
             return make_response(jsonify({"status":-2, "message":"Question doesn't exist: Check questionID!"})), 404
 
+        
+        
+        
+# API View which is to be used to search for key-words in the database
 @app.route('/questions/search', methods=['POST'])
+
 def search_for_a_question():
+#   validating if the requested method is a POST
     if request.method == 'POST':
 
+#       obtaining the posted data as a JSON
         data = request.get_json()
 
+#       validating if the key-word that has been sent contains any characters
         if not data or data == "None" or len(data) == 0:
             return make_response(jsonify({"status":-1, "message":"EMPTY field"})), 400
 
+#       obtaining the key-word string from recieved data
         phrase = str(data.get('search'))
 
+#       validating to check if the user input anything
         if not phrase or phrase == "None" or len(phrase) == 0:
             return make_response(jsonify({"status":-1, "message":"REQUIRED FIELD: Empty search parameter"})), 400
 
+#       returning the results of the search 
         qret = database.search_for_question(phrase)
 
+#       validating if the search returned any results
         if len(qret.keys()) == 0:
             return make_response(jsonify({"status":-2, "message":"Search returned no results."})), 404
 
+#       this runs when the serach returns results and it posts them to the user as a JSON
         return make_response(jsonify({"status":0, "message":"Success", "records":qret})), 200
 
+#   Incase none of the above conditions has been fullfilled, this error code is run
     else:
         abort (405)
 
